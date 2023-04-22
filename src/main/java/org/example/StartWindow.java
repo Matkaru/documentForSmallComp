@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.assortment.Assortment;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,9 +18,9 @@ public class StartWindow extends JFrame {
         JLabel naglowek = new JLabel("Wybierz czynność");
         naglowek.setHorizontalAlignment(JLabel.CENTER);
 
-        JButton nowyDokument = new JButton("Nowy dokument");
-        JButton dodajAsortyment = new JButton("Dodaj asortyment");
-        JButton dodajOdbiorce = new JButton("Dodaj odbiorcę");
+
+        JButton asortyment = new JButton("Asortyment");
+        JButton kontrahenci = new JButton("Kontrahenci");
         JButton dokumenty = new JButton("Dokumenty");
         JButton wyjscie = new JButton("Wyjście");
 
@@ -26,30 +28,25 @@ public class StartWindow extends JFrame {
 
         add(naglowek, BorderLayout.NORTH);
         JPanel panel = new JPanel(new FlowLayout());
-        panel.add(nowyDokument);
-        panel.add(dodajAsortyment);
-        panel.add(dodajOdbiorce);
+
+        panel.add(asortyment);
+        panel.add(kontrahenci);
         panel.add(dokumenty);
         panel.add(wyjscie);
         add(panel, BorderLayout.CENTER);
 
-        nowyDokument.addActionListener(new ActionListener() {
+
+        asortyment.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Logika dla przycisku "Nowy dokument"
-                JOptionPane.showMessageDialog(null, "Wybrano: Nowy dokument");
+                StartWindow.this.dispose();
+                Assortment assortment = new Assortment();
+                assortment.setVisible(true);
             }
         });
 
-        dodajAsortyment.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Logika dla przycisku "Dodaj asortyment"
-                JOptionPane.showMessageDialog(null, "Wybrano: Dodaj asortyment");
-            }
-        });
-
-        dodajOdbiorce.addActionListener(new ActionListener() {
+        kontrahenci.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Logika dla przycisku "Dodaj odbiorcę"
