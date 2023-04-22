@@ -11,7 +11,7 @@ public class StartWindow extends JFrame {
 
     public StartWindow(){
 
-        setTitle("Panel Wyboru Sakdrew");
+        setTitle("Panel Wyboru");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(400, 300));
 
