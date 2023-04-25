@@ -1,30 +1,41 @@
 package org.example.assortment;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditDialog extends JDialog {
+
+    private JTextField idFiled;
+    private long idFiled2;
     private JTextField nameField;
     private JTextField categoryField;
     private JTextField priceField;
+    private JTextField vatFiled;
     private boolean confirmed;
 
-    public EditDialog(JFrame parent, String name, String category, double price) {
+    public EditDialog(JFrame parent,long id, String name, String unit, double price, long vat) {
         super(parent, "Edycja danych", true); // Ustawienie tytułu okna dialogowego i trybu modalnego
-        setLayout(new GridLayout(4, 2));
+        setLayout(new GridLayout(6, 4));
 
         // Dodanie pól tekstowych do okna dialogowego
+        idFiled = new JTextField(Long.toString(id));
+        idFiled2 = Long.parseLong(idFiled.getText());
         nameField = new JTextField(name);
-        categoryField = new JTextField(category);
+        categoryField = new JTextField(unit);
         priceField = new JTextField(Double.toString(price));
+        vatFiled = new JTextField(Long.toString(vat));
+
+        add(new JLabel("Kod"));
+        add(idFiled);
         add(new JLabel("Nazwa:"));
         add(nameField);
-        add(new JLabel("Kategoria:"));
+        add(new JLabel("Jednostka:"));
         add(categoryField);
         add(new JLabel("Cena:"));
         add(priceField);
+        add(new JLabel("VAT"));
+        add(vatFiled);
 
         // Dodanie przycisków do okna dialogowego
         JButton confirmButton = new JButton("Potwierdź");
@@ -50,6 +61,9 @@ public class EditDialog extends JDialog {
         setLocationRelativeTo(parent);
     }
 
+    private void add(long parseLong) {
+    }
+
     public String getName() {
         return nameField.getText();
     }
@@ -65,10 +79,13 @@ public class EditDialog extends JDialog {
             return 0;
         }
     }
+    public String getVat(){return vatFiled.getText();}
 
     public boolean isConfirmed() {
         return confirmed;
     }
+
+    public long getId() {return Long.parseLong(idFiled.getText());}
 }
 
 
