@@ -1,4 +1,7 @@
 package org.example.assortment;
+import org.example.assortment.enums.Unit;
+import org.example.assortment.enums.Vat;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,13 +22,21 @@ public class EditDialog extends JDialog {
         super(parent, "Edycja danych", true); // Ustawienie tytułu okna dialogowego i trybu modalnego
         setLayout(new GridLayout(6, 4));
 
+
+        Long value0 = Vat.ZERO.getValue();
+        Long value5 = Vat.FIVE.getValue();
+        Long value8 = Vat.EIGHT.getValue();
+        Long value23 = Vat.TWO_THREE.getValue();
+
+        Long[] values = {value0, value5, value8, value23};
+
         // Dodanie pól tekstowych do okna dialogowego
         idFiled = new JTextField(Long.toString(id));
         idFiled2 = Long.parseLong(idFiled.getText());
         nameField = new JTextField(name);
-        unitField = new JComboBox<>(new String[]{"tysiąc szt", "szt", "kg", "l", "m"});
+        unitField = new JComboBox<>(Unit.values());
         priceField = new JTextField(Double.toString(price));
-        vatFiled = new JComboBox(new Integer[]{0, 5, 8, 23});
+        vatFiled = new JComboBox(values);
 
         add(new JLabel("Kod"));
         add(idFiled);

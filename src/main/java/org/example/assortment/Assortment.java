@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.StartWindow;
+import org.example.assortment.enums.Unit;
+import org.example.assortment.enums.Vat;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,18 +17,21 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class Assortment extends JFrame {
 
-    public static DefaultTableModel DefaultTableModel = new DefaultTableModel();
+    private static Assortment instance;
+
+     public static DefaultTableModel DefaultTableModel = new DefaultTableModel();
 
     private final JTextField newItemCodeField;
     private final JTextField newItemNameField;
     private final JTextField newItemPriceField;
-    private final JComboBox<String> newItemUnitComboBox;
-    private final JComboBox<Integer> newItemVatComboBox;
+    private final JComboBox<Unit> newItemUnitComboBox;
+    private final JComboBox<Long> newItemVatComboBox;
     private JButton addButton;
     private JButton editButton;
     private JButton deleteButton;
@@ -50,6 +55,20 @@ public class Assortment extends JFrame {
         JScrollPane scrollPane = new JScrollPane(assortmentTable);
         // Utworzenie listy asortymentu
 
+        Long value0 = Vat.ZERO.getValue();
+        Long value5 = Vat.FIVE.getValue();
+        Long value8 = Vat.EIGHT.getValue();
+        Long value23 = Vat.TWO_THREE.getValue();
+
+        Long[] values = {value0, value5, value8, value23};
+
+//        values.add(Vat.ZERO.getValue());
+//        values.add(Vat.FIVE.getValue());
+//        values.add(Vat.EIGHT.getValue());
+//        values.add(Vat.TWO_THREE.getValue());
+
+
+
 
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.add(scrollPane, BorderLayout.CENTER);
@@ -59,8 +78,8 @@ public class Assortment extends JFrame {
         newItemCodeField = new JTextField();
         newItemNameField = new JTextField();
         newItemPriceField = new JTextField();
-        newItemUnitComboBox = new JComboBox<>(new String[]{"tysiąc szt", "szt", "kg", "l", "m"});
-        newItemVatComboBox = new JComboBox<>(new Integer[]{0, 5, 8, 23});
+        newItemUnitComboBox = new JComboBox<>(Unit.values());
+        newItemVatComboBox = new JComboBox<>(values);
 
 
         // Utworzenie przycisków
@@ -252,4 +271,4 @@ public class Assortment extends JFrame {
         });
 
     }
-}
+ }
