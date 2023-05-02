@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class StartWindow extends JFrame {
 
@@ -43,7 +44,12 @@ public class StartWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 StartWindow.this.dispose();
-                Assortment assortment = new Assortment();
+                Assortment assortment = null;
+                try {
+                    assortment = new Assortment();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 assortment.setVisible(true);
             }
         });

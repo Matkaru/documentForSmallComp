@@ -16,6 +16,7 @@ import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Assortment extends JFrame {
 
@@ -24,15 +25,15 @@ public class Assortment extends JFrame {
     private final JTextField newItemCodeField;
     private final JTextField newItemNameField;
     private final JTextField newItemPriceField;
-    private final JTextField newItemVatFiled;
+    private final JComboBox<String> newItemUnitComboBox;
+    private final JComboBox<Integer> newItemVatComboBox;
     private JButton addButton;
     private JButton editButton;
     private JButton deleteButton;
-    private final JComboBox<String> newItemUnitComboBox;
     private final String fileName = "src/main/resources/assortment_data.json";
     public static JTable assortmentTable;
 
-    public Assortment() {
+    public Assortment() throws IOException {
 
         setTitle("Asortyment");
         setSize(700, 800);
@@ -59,7 +60,7 @@ public class Assortment extends JFrame {
         newItemNameField = new JTextField();
         newItemPriceField = new JTextField();
         newItemUnitComboBox = new JComboBox<>(new String[]{"tysiąc szt", "szt", "kg", "l", "m"});
-        newItemVatFiled = new JTextField();
+        newItemVatComboBox = new JComboBox<>(new Integer[]{0, 5, 8, 23});
 
 
         // Utworzenie przycisków
@@ -77,7 +78,7 @@ public class Assortment extends JFrame {
         formPanel.add(new JLabel("Jednostka miary: "));
         formPanel.add(newItemUnitComboBox);
         formPanel.add(new JLabel("VAT"));
-        formPanel.add(newItemVatFiled);
+        formPanel.add(newItemVatComboBox);
 
 
         // Dodanie przycisków do okienka
@@ -133,7 +134,7 @@ public class Assortment extends JFrame {
                         jsonGenerator.writeStringField("Nazwa", product.getName());
                         jsonGenerator.writeNumberField("Cena", product.getPrice());
                         jsonGenerator.writeStringField("Jednostka", product.getQuantity());
-                        jsonGenerator.writeStringField("VAT", String.valueOf(product.getVat()));
+                        jsonGenerator.writeNumberField("VAT", product.getVat());
 
                         jsonGenerator.writeEndObject();
                     }
@@ -159,8 +160,8 @@ public class Assortment extends JFrame {
                 String code = newItemCodeField.getText();
                 String name = newItemNameField.getText();
                 String price = newItemPriceField.getText();
-                String unit = newItemUnitComboBox.getSelectedItem().toString();
-                String vat = newItemVatFiled.getText();
+                String unit = Objects.requireNonNull(newItemUnitComboBox.getSelectedItem()).toString();
+                String vat = Objects.requireNonNull(newItemVatComboBox.getSelectedItem()).toString();
 
                 // Sprawdzenie, czy wszystkie pola są wypełnione
                 if (code.isEmpty() || name.isEmpty() || price.isEmpty() || vat.isEmpty()) {
@@ -181,7 +182,7 @@ public class Assortment extends JFrame {
                 newItemNameField.setText("");
                 newItemPriceField.setText("");
                 newItemUnitComboBox.setSelectedIndex(0);
-                newItemVatFiled.setText("");
+                newItemVatComboBox.setSelectedIndex(0);
 
                 JOptionPane.showMessageDialog(Assortment.this, "Dodano nowy wpis do tabeli.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -204,14 +205,15 @@ public class Assortment extends JFrame {
                 String category = (String) assortmentTable.getValueAt(selectedRow, 3);
                 long vat = (long) (assortmentTable.getValueAt(selectedRow, 4));
                 // Wyświetlenie okna dialogowego z formularzem edycji danych
-                EditDialog editDialog = new EditDialog(Assortment.this, id, name, category, price, vat); // Zakładamy, że mamy zdefiniowany własny dialog o nazwie EditDialog
+                EditDialog editDialog = new EditDialog(Assortment.this, id, name, category, price, vat);
+                // Zakładamy, że mamy zdefiniowany własny dialog o nazwie EditDialog
                 editDialog.setVisible(true);
 
                 if (editDialog.isConfirmed()) {
                     // Jeśli użytkownik potwierdzi zmiany, pobieramy zmodyfikowane dane z dialogu
                     long editId = editDialog.getId();
                     String editedName = editDialog.getName();
-                    String editedCategory = editDialog.getCategory();
+                    String editedCategory = editDialog.getUnit();
                     double editedPrice = editDialog.getPrice();
                     long editedVat = Long.parseLong(editDialog.getVat());
 
