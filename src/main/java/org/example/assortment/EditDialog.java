@@ -3,15 +3,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class EditDialog extends JDialog {
 
     private JTextField idFiled;
     private long idFiled2;
     private JTextField nameField;
-    private JTextField categoryField;
+    private JComboBox unitField;
     private JTextField priceField;
-    private JTextField vatFiled;
+    private JComboBox vatFiled;
     private boolean confirmed;
 
     public EditDialog(JFrame parent,long id, String name, String unit, double price, long vat) {
@@ -22,16 +23,16 @@ public class EditDialog extends JDialog {
         idFiled = new JTextField(Long.toString(id));
         idFiled2 = Long.parseLong(idFiled.getText());
         nameField = new JTextField(name);
-        categoryField = new JTextField(unit);
+        unitField = new JComboBox<>(new String[]{"tysiąc szt", "szt", "kg", "l", "m"});
         priceField = new JTextField(Double.toString(price));
-        vatFiled = new JTextField(Long.toString(vat));
+        vatFiled = new JComboBox(new Integer[]{0, 5, 8, 23});
 
         add(new JLabel("Kod"));
         add(idFiled);
         add(new JLabel("Nazwa:"));
         add(nameField);
         add(new JLabel("Jednostka:"));
-        add(categoryField);
+        add(unitField);
         add(new JLabel("Cena:"));
         add(priceField);
         add(new JLabel("VAT"));
@@ -68,8 +69,8 @@ public class EditDialog extends JDialog {
         return nameField.getText();
     }
 
-    public String getCategory() {
-        return categoryField.getText();
+    public String getUnit() {
+        return Objects.requireNonNull(unitField.getSelectedItem()).toString();
     }
 
     public double getPrice() {
@@ -79,7 +80,9 @@ public class EditDialog extends JDialog {
             return 0;
         }
     }
-    public String getVat(){return vatFiled.getText();}
+    public String getVat(){
+        return Objects.requireNonNull(vatFiled.getSelectedItem()).toString();
+    }
 
     public boolean isConfirmed() {
         return confirmed;
