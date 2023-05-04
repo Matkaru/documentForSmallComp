@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.assortment.Assortment;
+import org.example.contractor.Contractor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,13 +22,13 @@ public class StartWindow extends JFrame {
         JLabel naglowek = new JLabel("Wybierz czynność");
         naglowek.setHorizontalAlignment(JLabel.CENTER);
 
-//to są przyciski w naszym okienku - w dalszej części jest ustawione do nich nasłuchiwanie
+//to są przyciski w naszym okienku- w dalszej części jest ustawione do nich nasłuchiwanie
         JButton asortyment = new JButton("Asortyment");
         JButton kontrahenci = new JButton("Kontrahenci");
         JButton dokumenty = new JButton("Dokumenty");
         JButton wyjscie = new JButton("Wyjście");
 
-        setLayout(new BorderLayout());// to jest manager układu - w dalszej części będziemy z niego korzystać
+        setLayout(new BorderLayout());// to jest manager układu- w dalszej części będziemy z niego korzystać
 
         add(naglowek, BorderLayout.NORTH); // tu dodajemy położenie nagłówka
         JPanel panel = new JPanel(new FlowLayout());
@@ -38,36 +39,36 @@ public class StartWindow extends JFrame {
         panel.add(wyjscie);
         add(panel, BorderLayout.CENTER);
 
+
+
 // poniżej są przedstawione akcje do nasłuchiwania reakcji na danym przycisku
-        asortyment.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                StartWindow.this.dispose();
-                Assortment assortment = null;
-                try {
-                    assortment = new Assortment();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                assortment.setVisible(true);
+        asortyment.addActionListener(e -> {
+            StartWindow.this.dispose();
+            System.out.println("zamknięcie okna -kliknąłeś asortyment");
+            Assortment assortment = null;
+            try {
+                assortment = new Assortment();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
+            assortment.setVisible(true);
         });
 
-        kontrahenci.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Logika dla przycisku "Dodaj odbiorcę"
-                JOptionPane.showMessageDialog(null, "Wybrano: Dodaj odbiorcę");
+        kontrahenci.addActionListener(e -> {
+            StartWindow.this.dispose();
+            System.out.println("zamknięcie okna -kliknąłeś kontahenci");
+            Contractor contractor = null;
+            try {
+                contractor = new Contractor();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
+            contractor.setVisible(true);
         });
 
-        dokumenty.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Logika dla przycisku "Dokumenty"
-                JOptionPane.showMessageDialog(null, "Wybrano: Dokumenty");
-            }
+        dokumenty.addActionListener(e -> {
+            // Logika dla przycisku "Dokumenty"
+            JOptionPane.showMessageDialog(null, "Wybrano: Dokumenty");
         });
 
         wyjscie.addActionListener(new ActionListener() {
@@ -81,4 +82,5 @@ public class StartWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);// bez tego nie widać ramki
     }
+
 }
