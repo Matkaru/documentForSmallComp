@@ -1,6 +1,6 @@
 package org.example.assortment;
-import org.example.assortment.enums.Unit;
-import org.example.assortment.enums.Vat;
+import org.example.enums.Unit;
+import org.example.enums.Vat;
 
 import javax.swing.*;
 import java.awt.*;

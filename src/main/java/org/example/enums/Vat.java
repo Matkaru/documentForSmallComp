@@ -1,4 +1,4 @@
-package org.example.assortment.enums;
+package org.example.enums;
 
 public enum Vat {
     ZERO(0),
