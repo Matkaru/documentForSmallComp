@@ -1,16 +1,9 @@
 package org.example.assortment;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.StartWindow;
 import org.example.enums.Unit;
 import org.example.enums.Vat;
 import org.example.jsonSave.SaveAssortment;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,9 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -124,27 +114,6 @@ public class Assortment extends JFrame {
 
         addButton.addActionListener(e -> {
 
-//            List<Long> codeList = new ArrayList();
-//
-//            JSONParser parser = new JSONParser();
-//            JSONArray dane = null;
-//            try {
-//                dane = (JSONArray) parser.parse(new FileReader(fileName));
-//            } catch (IOException ex) {
-//                throw new RuntimeException(ex);
-//            } catch (ParseException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//
-//            // Dodanie wczytanych danych do tabeli
-//            for (Object object : dane) {
-//
-//                JSONObject product = (JSONObject) object;
-//                long id = (Long) product.get("Kod");
-//                codeList.add(id);
-//
-//            }
-
 
             String code = newItemCodeField.getText();
             String name = newItemNameField.getText();
@@ -152,12 +121,16 @@ public class Assortment extends JFrame {
             String unit = Objects.requireNonNull(newItemUnitComboBox.getSelectedItem()).toString();
             String vat = Objects.requireNonNull(newItemVatComboBox.getSelectedItem()).toString();
 
-            AssortmentMethod.setCodeList();
+            AssortmentMethod.setCodeAndNameList();
             List<Long> codeList = AssortmentMethod.getCodeList();
+            List<String> nameList = AssortmentMethod.getNameList();
 
-
-            if(codeList.contains(Long.parseLong(code))){
+            if (codeList.contains(Long.parseLong(code))) {
                 JOptionPane.showMessageDialog(Assortment.this, "Podany kod już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (nameList.contains(name)) {
+                JOptionPane.showMessageDialog(Assortment.this, "Podana nazwa już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 

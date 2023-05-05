@@ -15,7 +15,8 @@ import java.util.List;
 
 
 public class AssortmentMethod {
-    private static List<Long> codeList = new ArrayList();
+    private static final List<Long> codeList = new ArrayList<>();
+    private static final List<String> nameList = new ArrayList<>();
 
     public static String fileName = "src/main/resources/assortment_data.json";
 
@@ -65,28 +66,30 @@ public class AssortmentMethod {
         }
     }
 
-    public static void setCodeList() {
+    public static void setCodeAndNameList() {
 
         JSONParser parser = new JSONParser();
         JSONArray dane = null;
         try {
             dane = (JSONArray) parser.parse(new FileReader(fileName));
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        } catch (ParseException ex) {
+        } catch (IOException | ParseException ex) {
             throw new RuntimeException(ex);
         }
 //        wczytywanie kodów do listy
         for (Object object : dane) {
             JSONObject product = (JSONObject) object;
             long id = (Long) product.get("Kod");
+            String name =(String) product.get("Nazwa");
             codeList.add(id);
+            nameList.add(name);
         }
     }
-
     public static List<Long> getCodeList(){
         return codeList;
+    }
 
+    public static List<String> getNameList() {
+        return nameList;
     }
 }
 
