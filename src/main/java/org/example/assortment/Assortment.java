@@ -4,6 +4,10 @@ import org.example.StartWindow;
 import org.example.enums.Unit;
 import org.example.enums.Vat;
 import org.example.jsonSave.SaveAssortment;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -114,7 +118,6 @@ public class Assortment extends JFrame {
 
         addButton.addActionListener(e -> {
 
-
             String code = newItemCodeField.getText();
             String name = newItemNameField.getText();
             String price = newItemPriceField.getText().replace(",", ".");
@@ -182,9 +185,7 @@ public class Assortment extends JFrame {
             double price = (double) assortmentTable.getValueAt(selectedRow, 2);
             String category = (String) assortmentTable.getValueAt(selectedRow, 3);
             long vat = (long) (assortmentTable.getValueAt(selectedRow, 4));
-            // Wyświetlenie okna dialogowego z formularzem edycji danych
             EditDialog editDialog = new EditDialog(Assortment.this, id, name, category, price, vat);
-            // Zakładamy, że mamy zdefiniowany własny dialog o nazwie EditDialog
             editDialog.setVisible(true);
 
             if (editDialog.isConfirmed()) {
@@ -209,8 +210,9 @@ public class Assortment extends JFrame {
 
 
         deleteButton.addActionListener(new ActionListener() {
+            int selectedRow;
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = assortmentTable.getSelectedRow(); // Pobranie zaznaczonego wiersza
+                 selectedRow = assortmentTable.getSelectedRow(); // Pobranie zaznaczonego wiersza
                 if (selectedRow == -1) {
                     // Sprawdzenie, czy wiersz został zaznaczony
                     JOptionPane.showMessageDialog(Assortment.this, "Zaznacz wiersz do usunięcia.", "Błąd", JOptionPane.ERROR_MESSAGE);
@@ -224,6 +226,8 @@ public class Assortment extends JFrame {
                     DefaultTableModel model = (DefaultTableModel) assortmentTable.getModel();
                     model.removeRow(selectedRow);
                     JOptionPane.showMessageDialog(Assortment.this, "Wpis został usunięty.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
+
+                SaveAssortment.saveAssortment();
                 }
             }
         });
