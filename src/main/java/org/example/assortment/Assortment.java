@@ -124,6 +124,7 @@ public class Assortment extends JFrame {
 
         addButton.addActionListener(e -> {
 
+                List<Long> codeList = new ArrayList();
 
             JSONParser parser = new JSONParser();
             JSONArray dane = null;
@@ -140,7 +141,8 @@ public class Assortment extends JFrame {
 
                 JSONObject product = (JSONObject) object;
                 long id = (Long) product.get("Kod");
-                System.out.println(id);
+                codeList.add(id);
+
             }
 
 
@@ -150,6 +152,10 @@ public class Assortment extends JFrame {
             String unit = Objects.requireNonNull(newItemUnitComboBox.getSelectedItem()).toString();
             String vat = Objects.requireNonNull(newItemVatComboBox.getSelectedItem()).toString();
 
+            if(codeList.contains(Long.parseLong(code))){
+                JOptionPane.showMessageDialog(Assortment.this, "Podany kod już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             // Sprawdzenie, czy wszystkie pola są wypełnione
             if (code.isEmpty() || name.isEmpty() || price.isEmpty() || vat.isEmpty()) {
