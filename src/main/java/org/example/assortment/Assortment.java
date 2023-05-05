@@ -124,26 +124,26 @@ public class Assortment extends JFrame {
 
         addButton.addActionListener(e -> {
 
-                List<Long> codeList = new ArrayList();
-
-            JSONParser parser = new JSONParser();
-            JSONArray dane = null;
-            try {
-                dane = (JSONArray) parser.parse(new FileReader(fileName));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (ParseException ex) {
-                throw new RuntimeException(ex);
-            }
-
-            // Dodanie wczytanych danych do tabeli
-            for (Object object : dane) {
-
-                JSONObject product = (JSONObject) object;
-                long id = (Long) product.get("Kod");
-                codeList.add(id);
-
-            }
+//            List<Long> codeList = new ArrayList();
+//
+//            JSONParser parser = new JSONParser();
+//            JSONArray dane = null;
+//            try {
+//                dane = (JSONArray) parser.parse(new FileReader(fileName));
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            } catch (ParseException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//
+//            // Dodanie wczytanych danych do tabeli
+//            for (Object object : dane) {
+//
+//                JSONObject product = (JSONObject) object;
+//                long id = (Long) product.get("Kod");
+//                codeList.add(id);
+//
+//            }
 
 
             String code = newItemCodeField.getText();
@@ -151,6 +151,10 @@ public class Assortment extends JFrame {
             String price = newItemPriceField.getText().replace(",", ".");
             String unit = Objects.requireNonNull(newItemUnitComboBox.getSelectedItem()).toString();
             String vat = Objects.requireNonNull(newItemVatComboBox.getSelectedItem()).toString();
+
+            AssortmentMethod.setCodeList();
+            List<Long> codeList = AssortmentMethod.getCodeList();
+
 
             if(codeList.contains(Long.parseLong(code))){
                 JOptionPane.showMessageDialog(Assortment.this, "Podany kod już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
