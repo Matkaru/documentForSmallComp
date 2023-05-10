@@ -118,15 +118,16 @@ public class Assortment extends JFrame {
 
         addButton.addActionListener(e -> {
 
+        AssortmentMethod.setCodeAndNameList();
+        List<Long> codeList = AssortmentMethod.getCodeList();
+        List<String> nameList = AssortmentMethod.getNameList();
+
             String code = newItemCodeField.getText();
             String name = newItemNameField.getText();
             String price = newItemPriceField.getText().replace(",", ".");
             String unit = Objects.requireNonNull(newItemUnitComboBox.getSelectedItem()).toString();
             String vat = Objects.requireNonNull(newItemVatComboBox.getSelectedItem()).toString();
 
-            AssortmentMethod.setCodeAndNameList();
-            List<Long> codeList = AssortmentMethod.getCodeList();
-            List<String> nameList = AssortmentMethod.getNameList();
 
             if (codeList.contains(Long.parseLong(code))) {
                 JOptionPane.showMessageDialog(Assortment.this, "Podany kod już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
@@ -188,7 +189,9 @@ public class Assortment extends JFrame {
             EditDialog editDialog = new EditDialog(Assortment.this, id, name, category, price, vat);
             editDialog.setVisible(true);
 
+
             if (editDialog.isConfirmed()) {
+
                 // Jeśli użytkownik potwierdzi zmiany, pobieramy zmodyfikowane dane z dialogu
                 long editId = editDialog.getId();
                 String editedName = editDialog.getName();
@@ -205,6 +208,7 @@ public class Assortment extends JFrame {
                 model12.setValueAt(editedVat, selectedRow, 4);
 
                 JOptionPane.showMessageDialog(Assortment.this, "Dane zostały zaktualizowane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
+                SaveAssortment.saveAssortment();
             }
         });
 

@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Objects;
 
 public class EditDialog extends JDialog {
@@ -22,6 +23,7 @@ public class EditDialog extends JDialog {
         super(parent, "Edycja danych", true); // Ustawienie tytułu okna dialogowego i trybu modalnego
         setLayout(new GridLayout(6, 4));
 
+        AssortmentMethod.setCodeAndNameList();
 
         Long value0 = Vat.ZERO.getValue();
         Long value5 = Vat.FIVE.getValue();
@@ -52,10 +54,34 @@ public class EditDialog extends JDialog {
         // Dodanie przycisków do okna dialogowego
         JButton confirmButton = new JButton("Potwierdź");
         JButton cancelButton = new JButton("Anuluj");
+
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+        java.util.List<Long> editCodeList = AssortmentMethod.getCodeList();
+        List<String> editNameList = AssortmentMethod.getNameList();
+
+                System.out.println("przed " + editCodeList);
+                System.out.println("przed " + editNameList);
+
+                editCodeList.remove(getId());
+                editNameList.remove(getName());
+
+                System.out.println("po " + editCodeList);
+                System.out.println("po " + editNameList);
+
+
+                if (editCodeList.contains(getId())) {
+                    JOptionPane.showMessageDialog(EditDialog.this, "Podany kod już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (editNameList.contains(getName())) {
+                    JOptionPane.showMessageDialog(EditDialog.this, "Podana nazwa już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 confirmed = true;
+//                editCodeList.add(idFiled2);
+//                editNameList.add(nameField.getText());
                 dispose(); // Zamknięcie okna dialogowego
             }
         });
@@ -73,8 +99,7 @@ public class EditDialog extends JDialog {
         setLocationRelativeTo(parent);
     }
 
-    private void add(long parseLong) {
-    }
+
 
     public String getName() {
         return nameField.getText();
