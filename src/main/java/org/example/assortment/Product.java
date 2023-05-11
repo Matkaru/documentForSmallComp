@@ -10,13 +10,6 @@ public class Product {
     public Product() {
     }
 
-//    public Product(long id, String name, double price, String quantity, long vat) {
-//        this.id = id;
-//        this.name = name;
-//        this.price = price;
-//        this.quantity = quantity;
-//        this.vat = vat;
-//    }
 
     public long getId() {
         return id;
@@ -54,9 +47,7 @@ public class Product {
         return vat;
     }
 
-//    public void setVat(long vat) {
-//        this.vat = vat;
-//    }
+
 
 
     @Override
