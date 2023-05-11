@@ -1,9 +1,5 @@
 package org.example.assortment;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-
 public class Product {
     private long id;
     private String name;
@@ -14,13 +10,13 @@ public class Product {
     public Product() {
     }
 
-    public Product(long id, String name, double price, String quantity, long vat) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.vat = vat;
-    }
+//    public Product(long id, String name, double price, String quantity, long vat) {
+//        this.id = id;
+//        this.name = name;
+//        this.price = price;
+//        this.quantity = quantity;
+//        this.vat = vat;
+//    }
 
     public long getId() {
         return id;
@@ -58,19 +54,10 @@ public class Product {
         return vat;
     }
 
-    public void setVat(long vat) {
-        this.vat = vat;
-    }
-
-//    public JsonObject getProductAsJson() {
-//        JsonObjectBuilder builder = Json.createObjectBuilder();
-//        builder.add("Kod", this.id)
-//                .add("Nazwa", this.name)
-//                .add("Cena", this.price)
-//                .add("Jednostka", this.quantity)
-//                .add("VAT",this.vat);
-//        return builder.build();
+//    public void setVat(long vat) {
+//        this.vat = vat;
 //    }
+
 
     @Override
     public String toString() {
