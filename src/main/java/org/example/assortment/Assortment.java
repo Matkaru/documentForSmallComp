@@ -1,13 +1,10 @@
 package org.example.assortment;
 
-import org.example.StartWindow;
+import org.example.startWindow.StartWindow;
 import org.example.enums.Unit;
 import org.example.enums.Vat;
 import org.example.jsonSave.SaveAssortment;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.example.startWindow.StartWindowButtonListener;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -29,10 +26,6 @@ public class Assortment extends JFrame {
     private final JTextField newItemPriceField;
     private final JComboBox<Unit> newItemUnitComboBox;
     private final JComboBox<Long> newItemVatComboBox;
-    private JButton addButton;
-    private JButton editButton;
-    private JButton deleteButton;
-    private final String fileName = "src/main/resources/assortment_data.json";
     public static JTable assortmentTable;
     private boolean codeValid = true;
     private boolean priceValid = true;
@@ -55,10 +48,10 @@ public class Assortment extends JFrame {
         JScrollPane scrollPane = new JScrollPane(assortmentTable);
         // Utworzenie listy asortymentu
 
-        Long value0 = Vat.ZERO.getValue();
-        Long value5 = Vat.FIVE.getValue();
-        Long value8 = Vat.EIGHT.getValue();
-        Long value23 = Vat.TWO_THREE.getValue();
+        long value0 = Vat.ZERO.getValue();
+        long value5 = Vat.FIVE.getValue();
+        long value8 = Vat.EIGHT.getValue();
+        long value23 = Vat.TWO_THREE.getValue();
 
         Long[] values = {value0, value5, value8, value23};
 
@@ -76,9 +69,9 @@ public class Assortment extends JFrame {
 
 
         // Utworzenie przycisków
-        addButton = new JButton("Dodaj");
-        editButton = new JButton("Edytuj");
-        deleteButton = new JButton("Usuń");
+        JButton addButton = new JButton("Dodaj");
+        JButton editButton = new JButton("Edytuj");
+        JButton deleteButton = new JButton("Usuń");
 
         JPanel formPanel = new JPanel(new GridLayout(5, 2));
         formPanel.add(new JLabel("Kod: "));
@@ -110,7 +103,8 @@ public class Assortment extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                StartWindow startWindow = new StartWindow();
+                StartWindowButtonListener buttonListener = new StartWindowButtonListener();
+                StartWindow startWindow = new StartWindow(buttonListener);
                 startWindow.setVisible(true);
                 dispose();
             }
@@ -184,9 +178,7 @@ public class Assortment extends JFrame {
             long id = (long) assortmentTable.getValueAt(selectedRow, 0);
             String name = (String) assortmentTable.getValueAt(selectedRow, 1);
             double price = (double) assortmentTable.getValueAt(selectedRow, 2);
-            String category = (String) assortmentTable.getValueAt(selectedRow, 3);
-            long vat = (long) (assortmentTable.getValueAt(selectedRow, 4));
-            EditDialog editDialog = new EditDialog(Assortment.this, id, name, category, price, vat);
+            EditDialog editDialog = new EditDialog(Assortment.this, id, name, price);
             editDialog.setVisible(true);
 
 

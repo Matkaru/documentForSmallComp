@@ -1,7 +1,5 @@
 package org.example.contractor;
-
-import org.example.StartWindow;
-
+import org.example.startWindow.StartWindow;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -9,20 +7,11 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import org.example.startWindow.StartWindowButtonListener;
 
 public class Contractor extends JFrame {
 
-    private final JTextField newItemCompanyIdField;
-    private final JTextField newItemCompanyNameField;
-    private final JTextField newItemNipField;
-    private final JTextField newItemRegonField;
-    private final JTextField newItemAddressField;
-    private final JTextField newItemEmailField;
-    private final JTextField newItemPhoneNumberField;
-    private JButton addButton;
-    private JButton editButton;
-    private JButton deleteButton;
-    private final String fileName = "src/main/resources/contractors_data.json";
+
     public static JTable contractorTable;
 
     public Contractor() throws IOException {
@@ -44,17 +33,17 @@ public class Contractor extends JFrame {
         add(tablePanel, BorderLayout.CENTER);
 
 
-        newItemCompanyIdField = new JTextField();
-        newItemCompanyNameField = new JTextField();
-        newItemNipField = new JTextField();
-        newItemRegonField = new JTextField();
-        newItemAddressField = new JTextField();
-        newItemEmailField = new JTextField();
-        newItemPhoneNumberField = new JTextField();
+        JTextField newItemCompanyIdField = new JTextField();
+        JTextField newItemCompanyNameField = new JTextField();
+        JTextField newItemNipField = new JTextField();
+        JTextField newItemRegonField = new JTextField();
+        JTextField newItemAddressField = new JTextField();
+        JTextField newItemEmailField = new JTextField();
+        JTextField newItemPhoneNumberField = new JTextField();
 
-        addButton = new JButton("Dodaj");
-        editButton = new JButton("Edytuj");
-        deleteButton = new JButton("Usuń");
+        JButton addButton = new JButton("Dodaj");
+        JButton editButton = new JButton("Edytuj");
+        JButton deleteButton = new JButton("Usuń");
 
         JPanel formPanel = new JPanel(new GridLayout(7, 2));
         formPanel.add(new JLabel("Id: "));
@@ -85,9 +74,10 @@ public class Contractor extends JFrame {
         addWindowListener(new WindowAdapter() {
                               @Override
                               public void windowClosing(WindowEvent e) {
-                                  TableModel model = contractorTable.getModel();
+//                                  TableModel model = contractorTable.getModel();
 
-        StartWindow startWindow = new StartWindow();
+        StartWindowButtonListener buttonListener = new StartWindowButtonListener();
+        StartWindow startWindow = new StartWindow(buttonListener);
         startWindow.setVisible(true);
         dispose();
                               }
