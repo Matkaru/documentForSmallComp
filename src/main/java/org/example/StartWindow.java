@@ -1,36 +1,32 @@
 package org.example;
-
 import org.example.assortment.Assortment;
 import org.example.contractor.Contractor;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class StartWindow extends JFrame {
 
-//okno starotwe
+    //start window
     public StartWindow(){
-//tutaj ustawiamy tytuł i domyślną operację, która wykona się po zamknięciu okienka oraz wielkość ramki
+        //here we set the title and the default operation that will be performed after closing the window and the size of the frame
         setTitle("Panel Wyboru");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(400, 300));
 
-//ustawiamy tytuł nagłówka oraz jego położenie
+        //we set the header title and its position
         JLabel naglowek = new JLabel("Wybierz czynność");
         naglowek.setHorizontalAlignment(JLabel.CENTER);
 
-//to są przyciski w naszym okienku- w dalszej części jest ustawione do nich nasłuchiwanie
+        //these are the buttons in our window - further on they are set to listen
         JButton asortyment = new JButton("Asortyment");
         JButton kontrahenci = new JButton("Kontrahenci");
         JButton dokumenty = new JButton("Dokumenty");
         JButton wyjscie = new JButton("Wyjście");
 
-        setLayout(new BorderLayout());// to jest manager układu- w dalszej części będziemy z niego korzystać
+        setLayout(new BorderLayout());//this is the layout manager - we'll use it later
 
-        add(naglowek, BorderLayout.NORTH); // tu dodajemy położenie nagłówka
+        add(naglowek, BorderLayout.NORTH); // here we add the location of the header
         JPanel panel = new JPanel(new FlowLayout());
 
         panel.add(asortyment);
@@ -40,12 +36,11 @@ public class StartWindow extends JFrame {
         add(panel, BorderLayout.CENTER);
 
 
-
-// poniżej są przedstawione akcje do nasłuchiwania reakcji na danym przycisku
+        //listening on buttons
         asortyment.addActionListener(e -> {
             StartWindow.this.dispose();
             System.out.println("zamknięcie okna -kliknąłeś asortyment");
-            Assortment assortment = null;
+            Assortment assortment;
             try {
                 assortment = new Assortment();
             } catch (IOException ex) {
@@ -57,7 +52,7 @@ public class StartWindow extends JFrame {
         kontrahenci.addActionListener(e -> {
             StartWindow.this.dispose();
             System.out.println("zamknięcie okna -kliknąłeś kontahenci");
-            Contractor contractor = null;
+            Contractor contractor;
             try {
                 contractor = new Contractor();
             } catch (IOException ex) {
@@ -67,20 +62,17 @@ public class StartWindow extends JFrame {
         });
 
         dokumenty.addActionListener(e -> {
-            // Logika dla przycisku "Dokumenty"
+            //Logic for the "Documents" button
             JOptionPane.showMessageDialog(null, "Wybrano: Dokumenty");
         });
 
-        wyjscie.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Logika dla przycisku "Wyjście"
-                System.exit(0);
-            }
+        wyjscie.addActionListener(e -> {
+            // Logic for the "Exit" button
+            System.exit(0);
         });
         pack();
         setLocationRelativeTo(null);
-        setVisible(true);// bez tego nie widać ramki
+        setVisible(true);
     }
 
 }
