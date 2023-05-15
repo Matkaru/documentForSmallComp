@@ -39,7 +39,6 @@ public class StartWindow extends JFrame {
         //listening on buttons
         asortyment.addActionListener(e -> {
             StartWindow.this.dispose();
-            System.out.println("zamknięcie okna -kliknąłeś asortyment");
             Assortment assortment;
             try {
                 assortment = new Assortment();
@@ -51,7 +50,7 @@ public class StartWindow extends JFrame {
 
         kontrahenci.addActionListener(e -> {
             StartWindow.this.dispose();
-            System.out.println("zamknięcie okna -kliknąłeś kontahenci");
+
             Contractor contractor;
             try {
                 contractor = new Contractor();
@@ -63,7 +62,7 @@ public class StartWindow extends JFrame {
 
         dokumenty.addActionListener(e -> {
             //Logic for the "Documents" button
-            JOptionPane.showMessageDialog(null, "Wybrano: Dokumenty");
+            JOptionPane.showMessageDialog(null, "Documents section selected");
         });
 
         wyjscie.addActionListener(e -> {
