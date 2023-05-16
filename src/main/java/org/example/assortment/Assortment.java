@@ -1,37 +1,29 @@
 package org.example.assortment;
-
 import org.example.startWindow.StartWindow;
 import org.example.enums.Unit;
 import org.example.enums.Vat;
-import org.example.jsonSave.SaveAssortment;
 import org.example.startWindow.StartWindowButtonListener;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
-import java.util.List;
-import java.util.Objects;
 
 public class Assortment extends JFrame {
 
 
-    private final JTextField newItemCodeField;
-    private final JTextField newItemNameField;
-    private final JTextField newItemPriceField;
-    private final JComboBox<Unit> newItemUnitComboBox;
-    private final JComboBox<Long> newItemVatComboBox;
+    public static JTextField newItemCodeField;
+    public static JTextField newItemNameField;
+    public static JTextField newItemPriceField;
+    public static JComboBox<Unit> newItemUnitComboBox;
+    public static JComboBox<Long> newItemVatComboBox;
     public static JTable assortmentTable;
-    private boolean codeValid = true;
-    private boolean priceValid = true;
 
 
     public Assortment() throws IOException {
+
 
         setTitle("Asortyment");
         setSize(700, 800);
@@ -46,7 +38,8 @@ public class Assortment extends JFrame {
         AssortmentMethod.loadAssortmentFromFile();
 
         JScrollPane scrollPane = new JScrollPane(assortmentTable);
-        // Utworzenie listy asortymentu
+
+        //Create an assortment list
 
         long value0 = Vat.ZERO.getValue();
         long value5 = Vat.FIVE.getValue();
@@ -60,15 +53,13 @@ public class Assortment extends JFrame {
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         add(tablePanel, BorderLayout.CENTER);
 
-
         newItemCodeField = new JTextField();
         newItemNameField = new JTextField();
         newItemPriceField = new JTextField();
         newItemUnitComboBox = new JComboBox<>(Unit.values());
         newItemVatComboBox = new JComboBox<>(values);
 
-
-        // Utworzenie przycisków
+        //Creation of buttons
         JButton addButton = new JButton("Dodaj");
         JButton editButton = new JButton("Edytuj");
         JButton deleteButton = new JButton("Usuń");
@@ -86,7 +77,7 @@ public class Assortment extends JFrame {
         formPanel.add(newItemVatComboBox);
 
 
-        // Dodanie przycisków do okienka
+        // Adding buttons to the window
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
@@ -99,7 +90,7 @@ public class Assortment extends JFrame {
         add(mainPanel, BorderLayout.SOUTH);
 
 
-// poniżej dodajemy akcje na przyciskach
+        //below we add actions on buttons
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -110,123 +101,10 @@ public class Assortment extends JFrame {
             }
         });
 
-        addButton.addActionListener(e -> {
-
-        AssortmentMethod.setCodeAndNameList();
-        List<Long> codeList = AssortmentMethod.getCodeList();
-        List<String> nameList = AssortmentMethod.getNameList();
-
-            String code = newItemCodeField.getText();
-            String name = newItemNameField.getText();
-            String price = newItemPriceField.getText().replace(",", ".");
-            String unit = Objects.requireNonNull(newItemUnitComboBox.getSelectedItem()).toString();
-            String vat = Objects.requireNonNull(newItemVatComboBox.getSelectedItem()).toString();
-
-
-            if (codeList.contains(Long.parseLong(code))) {
-                JOptionPane.showMessageDialog(Assortment.this, "Podany kod już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (nameList.contains(name)) {
-                JOptionPane.showMessageDialog(Assortment.this, "Podana nazwa już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Sprawdzenie, czy wszystkie pola są wypełnione
-            if (code.isEmpty() || name.isEmpty() || price.isEmpty() || vat.isEmpty()) {
-                JOptionPane.showMessageDialog(Assortment.this, "Wypełnij wszystkie pola!", "Błąd", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            codeValid = code.matches("[0-9]{4,}");
-            priceValid = price.matches("[0-9]+(\\.[0-9]{1,2})?");
-
-            if (!codeValid || !priceValid) {
-                JOptionPane.showMessageDialog(Assortment.this, " Kod musi zawierać minimum 4 cyfry od 0 do 9 ! \n Cena musi zawierać cyfry i dwa miejsca po przecinku", "Błąd", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            long code2 = Long.parseLong(code);
-            double price2 = Double.parseDouble(price);
-            long vat2 = Long.parseLong(vat);
-
-            // Dodanie nowego produktu do tabeli
-            DefaultTableModel model1 = (DefaultTableModel) assortmentTable.getModel();
-            model1.addRow(new Object[]{code2, name, price2, unit, vat2});
-
-            // Wyczyszczenie pól formularza po dodaniu wpisu
-            newItemCodeField.setText("");
-            newItemNameField.setText("");
-            newItemPriceField.setText("");
-            newItemUnitComboBox.setSelectedIndex(0);
-            newItemVatComboBox.setSelectedIndex(0);
-
-            JOptionPane.showMessageDialog(Assortment.this, "Dodano nowy wpis do tabeli.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
-            SaveAssortment.saveAssortment();
-
-        });
-
-
-        editButton.addActionListener(e -> {
-            int selectedRow = assortmentTable.getSelectedRow(); // Pobranie zaznaczonego wiersza
-            if (selectedRow == -1) {
-                // Sprawdzenie, czy wiersz został zaznaczony
-                JOptionPane.showMessageDialog(Assortment.this, "Zaznacz wiersz do edycji.", "Błąd", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Pobranie danych z zaznaczonego wiersza
-            long id = (long) assortmentTable.getValueAt(selectedRow, 0);
-            String name = (String) assortmentTable.getValueAt(selectedRow, 1);
-            double price = (double) assortmentTable.getValueAt(selectedRow, 2);
-            EditDialog editDialog = new EditDialog(Assortment.this, id, name, price);
-            editDialog.setVisible(true);
-
-
-            if (editDialog.isConfirmed()) {
-
-                // Jeśli użytkownik potwierdzi zmiany, pobieramy zmodyfikowane dane z dialogu
-                long editId = editDialog.getId();
-                String editedName = editDialog.getName();
-                String editedCategory = editDialog.getUnit();
-                double editedPrice = editDialog.getPrice();
-                long editedVat = Long.parseLong(editDialog.getVat());
-
-                // Aktualizacja danych w tabeli
-                DefaultTableModel model12 = (DefaultTableModel) assortmentTable.getModel();
-                model12.setValueAt(editId, selectedRow, 0);
-                model12.setValueAt(editedName, selectedRow, 1);
-                model12.setValueAt(editedPrice, selectedRow, 2);
-                model12.setValueAt(editedCategory, selectedRow, 3);
-                model12.setValueAt(editedVat, selectedRow, 4);
-
-                JOptionPane.showMessageDialog(Assortment.this, "Dane zostały zaktualizowane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
-                SaveAssortment.saveAssortment();
-            }
-        });
-
-
-        deleteButton.addActionListener(new ActionListener() {
-            int selectedRow;
-            public void actionPerformed(ActionEvent e) {
-                 selectedRow = assortmentTable.getSelectedRow(); // Pobranie zaznaczonego wiersza
-                if (selectedRow == -1) {
-                    // Sprawdzenie, czy wiersz został zaznaczony
-                    JOptionPane.showMessageDialog(Assortment.this, "Zaznacz wiersz do usunięcia.", "Błąd", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                // Wyświetlenie okna dialogowego z pytaniem o potwierdzenie usunięcia
-                int confirm = JOptionPane.showConfirmDialog(Assortment.this, "Czy na pewno chcesz usunąć zaznaczony wpis?", "Potwierdzenie usunięcia", JOptionPane.YES_NO_OPTION);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    // Usunięcie zaznaczonego wiersza z tabeli
-                    DefaultTableModel model = (DefaultTableModel) assortmentTable.getModel();
-                    model.removeRow(selectedRow);
-                    JOptionPane.showMessageDialog(Assortment.this, "Wpis został usunięty.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
-
-                SaveAssortment.saveAssortment();
-                }
-            }
-        });
+        AssortmentButtonListener assortmentButtonListener = new AssortmentButtonListener();
+        addButton.addActionListener(assortmentButtonListener);
+        editButton.addActionListener(assortmentButtonListener);
+        deleteButton.addActionListener(assortmentButtonListener);
 
     }
 }
