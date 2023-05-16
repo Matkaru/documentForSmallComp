@@ -1,14 +1,12 @@
-package org.example;
-import org.example.assortment.Assortment;
-import org.example.contractor.Contractor;
+package org.example.startWindow;
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-
 public class StartWindow extends JFrame {
 
     //start window
-    public StartWindow(){
+    public StartWindow(StartWindowButtonListener buttonListener){
+        super("Panel Wyboru");
+
         //here we set the title and the default operation that will be performed after closing the window and the size of the frame
         setTitle("Panel Wyboru");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,40 +33,13 @@ public class StartWindow extends JFrame {
         panel.add(wyjscie);
         add(panel, BorderLayout.CENTER);
 
-
         //listening on buttons
-        asortyment.addActionListener(e -> {
-            StartWindow.this.dispose();
-            Assortment assortment;
-            try {
-                assortment = new Assortment();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            assortment.setVisible(true);
-        });
 
-        kontrahenci.addActionListener(e -> {
-            StartWindow.this.dispose();
+        asortyment.addActionListener(buttonListener::onAsortymentButtonClicked);
+        kontrahenci.addActionListener(buttonListener::onKontrahenciButtonClicked);
+        dokumenty.addActionListener(e -> buttonListener.onDokumentyButtonClicked());
+        wyjscie.addActionListener(e -> buttonListener.onWyjscieButtonClicked());
 
-            Contractor contractor;
-            try {
-                contractor = new Contractor();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            contractor.setVisible(true);
-        });
-
-        dokumenty.addActionListener(e -> {
-            //Logic for the "Documents" button
-            JOptionPane.showMessageDialog(null, "Documents section selected");
-        });
-
-        wyjscie.addActionListener(e -> {
-            // Logic for the "Exit" button
-            System.exit(0);
-        });
         pack();
         setLocationRelativeTo(null);
         setVisible(true);

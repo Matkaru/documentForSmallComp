@@ -1,14 +1,18 @@
 package org.example;
+import org.example.startWindow.StartWindow;
 import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.awt.*;
 import static org.example.assortment.Assortment.assortmentTable;
 import static org.junit.jupiter.api.Assertions.*;
+import org.example.startWindow.StartWindowButtonListener;
 
 class StartWindowTest {
     @Test
     public void testStartWindowInitialization() {
-        StartWindow startWindow = new StartWindow();
+        StartWindowButtonListener buttonListener = new StartWindowButtonListener();
+        StartWindow startWindow = new StartWindow(buttonListener);
+
         assertEquals("Panel Wyboru", startWindow.getTitle());
         assertEquals(WindowConstants.EXIT_ON_CLOSE, startWindow.getDefaultCloseOperation());
         assertEquals(new Dimension(400, 300), startWindow.getPreferredSize());
@@ -28,7 +32,8 @@ class StartWindowTest {
 
     @Test
     public void testAsortymentButtonAction() {
-        StartWindow startWindow = new StartWindow();
+        StartWindowButtonListener buttonListener = new StartWindowButtonListener();
+        StartWindow startWindow = new StartWindow(buttonListener);
         JButton asortymentButton = (JButton) ((JPanel) startWindow.getContentPane().getComponent(1)).getComponent(0);
         asortymentButton.doClick();
         assertFalse(startWindow.isVisible());
