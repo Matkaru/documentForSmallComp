@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -88,6 +90,7 @@ public class AssortmentButtonListener extends Component implements ActionListene
         newItemVatComboBox.setSelectedIndex(0);
 
         JOptionPane.showMessageDialog(AssortmentButtonListener.this, "Dodano nowy wpis do tabeli.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
+        Assortment.sortAssortmentTableByCode();
         SaveAssortment.saveAssortment();
 
     }
@@ -108,7 +111,7 @@ public class AssortmentButtonListener extends Component implements ActionListene
             DefaultTableModel model = (DefaultTableModel) assortmentTable.getModel();
             model.removeRow(selectedRow);
             JOptionPane.showMessageDialog(AssortmentButtonListener.this, "Wpis został usunięty.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
-
+            Assortment.sortAssortmentTableByCode();
             SaveAssortment.saveAssortment();
         }
     }
@@ -134,24 +137,37 @@ public class AssortmentButtonListener extends Component implements ActionListene
             @Override
             public void windowClosed(WindowEvent e) {
                 if (editDialog.isConfirmed()) {
-                    //If the user confirms the changes, we fetch the modified data from the dialog
-                    long editId = editDialog.getId();
-                    String editedName = editDialog.getName();
-                    String editedCategory = editDialog.getUnit();
-                    double editedPrice = editDialog.getPrice();
-                    long editedVat = Long.parseLong(editDialog.getVat());
+                    List<String> nameList = new ArrayList<>(AssortmentMethod.getNameList());
 
-                    //Updating data in the table
-                    DefaultTableModel model12 = (DefaultTableModel) assortmentTable.getModel();
-                    model12.setValueAt(editId, selectedRow, 0);
-                    model12.setValueAt(editedName, selectedRow, 1);
-                    model12.setValueAt(editedPrice, selectedRow, 2);
-                    model12.setValueAt(editedCategory, selectedRow, 3);
-                    model12.setValueAt(editedVat, selectedRow, 4);
+                    HashSet<String> set = new HashSet<>(nameList);
+                    nameList.clear();
+                    nameList.addAll(set);
+                    nameList.remove(name);
 
+                        //If the user confirms the changes, we fetch the modified data from the dialog
+                        long editId = editDialog.getId();
+                        String editedName = editDialog.getName();
+                        String editedCategory = editDialog.getUnit();
+                        double editedPrice = editDialog.getPrice();
+                        long editedVat = Long.parseLong(editDialog.getVat());
 
-                    JOptionPane.showMessageDialog(AssortmentButtonListener.this, "Dane zostały zaktualizowane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
-                    SaveAssortment.saveAssortment();
+                    if (nameList.contains(editedName)) {
+                        JOptionPane.showMessageDialog(AssortmentButtonListener.this, "Podana nazwa już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    }else {
+                        //Updating data in the table
+                        DefaultTableModel model12 = (DefaultTableModel) assortmentTable.getModel();
+                        model12.setValueAt(editId, selectedRow, 0);
+                        model12.setValueAt(editedName, selectedRow, 1);
+                        model12.setValueAt(editedPrice, selectedRow, 2);
+                        model12.setValueAt(editedCategory, selectedRow, 3);
+                        model12.setValueAt(editedVat, selectedRow, 4);
+
+                        JOptionPane.showMessageDialog(AssortmentButtonListener.this, "Dane zostały zaktualizowane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
+                        nameList.clear();
+                        Assortment.sortAssortmentTableByCode();
+                        SaveAssortment.saveAssortment();
+
+                    }
                 }
             }
         });

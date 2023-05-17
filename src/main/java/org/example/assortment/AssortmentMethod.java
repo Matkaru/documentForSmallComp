@@ -1,18 +1,14 @@
 package org.example.assortment;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import javax.swing.table.DefaultTableModel;
 import java.io.*;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class AssortmentMethod {
     private static final List<Long> codeList = new ArrayList<>();
@@ -32,12 +28,11 @@ public class AssortmentMethod {
 
     public static void loadAssortmentFromFile() {
 
-        // Files.readAllBytes(Paths.get(fileName)
 
         try {
             File file = new File(fileName);
             if (!file.exists()) {
-                // Jeśli plik nie istnieje, zakończ wczytywanie
+                // If the file does not exist, stop loading
                 return;
             }
             if (jsonStr.isEmpty()) {
@@ -45,17 +40,17 @@ public class AssortmentMethod {
                 model.setRowCount(0);
             }
 
-            // Wczytanie danych z pliku JSON
+            // Loading data from a JSON file
             if (!jsonStr.isEmpty()) {
                 JSONParser parser = new JSONParser();
                 JSONArray dane = (JSONArray) parser.parse(new FileReader(fileName));
 
-                // Wyczyszczenie tabeli przed wczytaniem nowych danych
+                //Clearing the table before loading new data
 
                 DefaultTableModel model = (DefaultTableModel) Assortment.assortmentTable.getModel();
                 model.setRowCount(0);
 
-                // Dodanie wczytanych danych do tabeli
+                // Adding the loaded data to the table
                 for (Object object : dane) {
 
                     JSONObject product = (JSONObject) object;
@@ -74,7 +69,6 @@ public class AssortmentMethod {
             throw new RuntimeException(e);
         }
     }
-
     public static void setCodeAndNameList() {
         JSONParser parser = new JSONParser();
         JSONArray dane;
@@ -89,7 +83,7 @@ public class AssortmentMethod {
             } catch (IOException | ParseException ex) {
                 throw new RuntimeException(ex);
             }
-//        wczytywanie kodów do listy
+//        loading codes into the list
             for (Object object : dane) {
                 JSONObject product = (JSONObject) object;
                 long id = (Long) product.get("Kod");
@@ -99,7 +93,6 @@ public class AssortmentMethod {
             }
         }
     }
-
     public static List<Long> getCodeList() {
         return codeList;
     }
@@ -107,7 +100,6 @@ public class AssortmentMethod {
     public static List<String> getNameList() {
         return nameList;
     }
-
 
 }
 

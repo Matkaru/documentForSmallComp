@@ -1,8 +1,10 @@
 package org.example.assortment;
+
 import org.example.startWindow.StartWindow;
 import org.example.enums.Unit;
 import org.example.enums.Vat;
 import org.example.startWindow.StartWindowButtonListener;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -10,6 +12,8 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
+import java.util.*;
+import java.util.List;
 
 public class Assortment extends JFrame {
 
@@ -21,6 +25,33 @@ public class Assortment extends JFrame {
     public static JComboBox<Long> newItemVatComboBox;
     public static JTable assortmentTable;
 
+
+    public static void sortAssortmentTableByCode() {
+
+        DefaultTableModel model = (DefaultTableModel) assortmentTable.getModel();
+        int rowCount = model.getRowCount();
+
+        List<Vector<Object>> data = new ArrayList<>();
+        for (int i = 0; i < rowCount; i++) {
+            Vector<Object> row = new Vector<>();
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                row.add(model.getValueAt(i, j));
+            }
+            data.add(row);
+        }
+        data.sort((row1, row2) -> {
+            Long code1 = (Long) row1.get(0);
+            Long code2 = (Long) row2.get(0);
+            return Long.compare(code1, code2);
+        });
+
+        model.setRowCount(0); // The table is cleared
+
+        //adding the newly sorted values to the table
+        for (Vector<Object> row : data) {
+            model.addRow(row);
+        }
+    }
 
     public Assortment() throws IOException {
 
@@ -35,9 +66,12 @@ public class Assortment extends JFrame {
         assortmentTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         assortmentTable.getTableHeader().setReorderingAllowed(false);
 
+
         AssortmentMethod.loadAssortmentFromFile();
+        sortAssortmentTableByCode();
 
         JScrollPane scrollPane = new JScrollPane(assortmentTable);
+
 
         //Create an assortment list
 
