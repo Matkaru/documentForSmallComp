@@ -3,7 +3,6 @@ import org.example.enums.Unit;
 import org.example.enums.Vat;
 import javax.swing.*;
 import java.awt.*;
-
 import java.util.Objects;
 
 public class EditDialog extends JDialog {
