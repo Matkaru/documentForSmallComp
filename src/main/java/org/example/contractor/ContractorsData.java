@@ -1,19 +1,19 @@
 package org.example.contractor;
 
 public class ContractorsData {
-    private int id;
+    private long id;
     private String companyName;
     private long nip;
     private long regon;
     private String address;
     private String email;
-    private int phoneNumber;
+    private long phoneNumber;
     public ContractorsData() {
     }
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     public String getCompanyName() {
@@ -46,10 +46,10 @@ public class ContractorsData {
     public void setEmail(String email) {
         this.email = email;
     }
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return phoneNumber;
     }
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
     @Override
@@ -62,15 +62,15 @@ public class ContractorsData {
                         "," + address +
                         "," + email +
                         ", " + phoneNumber;
-    }
-    public ContractorsData(int id, String companyName, long nip, long regon, String address, String email, int phoneNumber) {
-        this.id = id;
-        this.companyName = companyName;
-        this.nip = nip;
-        this.regon = regon;
-        this.address = address;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
+   //}
+   //public ContractorsData(long id, String companyName, long nip, long regon, String address, String email, long phoneNumber) {
+   //    this.id = id;
+   //    this.companyName = companyName;
+   //    this.nip = nip;
+   //    this.regon = regon;
+   //    this.address = address;
+   //    this.email = email;
+   //    this.phoneNumber = phoneNumber;
     }
 
 }

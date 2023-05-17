@@ -1,15 +1,26 @@
 package org.example.contractor;
+import org.example.assortment.AssortmentButtonListener;
 import org.example.startWindow.StartWindow;
+
+import org.example.startWindow.StartWindowButtonListener;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import org.example.startWindow.StartWindowButtonListener;
+import java.io.*;
 
 public class Contractor extends JFrame {
+
+    public static JTextField newItemCompanyIdField;
+    public static JTextField newItemCompanyNameField;
+    public static JTextField newItemNipField;
+    public static JTextField newItemRegonField;
+    public static JTextField newItemAddressField;
+    public static JTextField newItemEmailField;
+    public static JTextField newItemPhoneNumberField;
+
 
 
     public static JTable contractorTable;
@@ -33,13 +44,13 @@ public class Contractor extends JFrame {
         add(tablePanel, BorderLayout.CENTER);
 
 
-        JTextField newItemCompanyIdField = new JTextField();
-        JTextField newItemCompanyNameField = new JTextField();
-        JTextField newItemNipField = new JTextField();
-        JTextField newItemRegonField = new JTextField();
-        JTextField newItemAddressField = new JTextField();
-        JTextField newItemEmailField = new JTextField();
-        JTextField newItemPhoneNumberField = new JTextField();
+       newItemCompanyIdField = new JTextField();
+       newItemCompanyNameField = new JTextField();
+       newItemNipField = new JTextField();
+       newItemRegonField = new JTextField();
+       newItemAddressField = new JTextField();
+       newItemEmailField = new JTextField();
+       newItemPhoneNumberField = new JTextField();
 
         JButton addButton = new JButton("Dodaj");
         JButton editButton = new JButton("Edytuj");
@@ -61,21 +72,21 @@ public class Contractor extends JFrame {
         formPanel.add(new JLabel("Nr telefonu: "));
         formPanel.add(newItemPhoneNumberField);
 
-        // Dodanie przycisków do okienka
+        // Adding buttons to the window
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
+
+
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(formPanel, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         add(mainPanel, BorderLayout.SOUTH);
 
         addWindowListener(new WindowAdapter() {
-                              @Override
-                              public void windowClosing(WindowEvent e) {
-//                                  TableModel model = contractorTable.getModel();
-
+        @Override
+        public void windowClosing(WindowEvent e) {
         StartWindowButtonListener buttonListener = new StartWindowButtonListener();
         StartWindow startWindow = new StartWindow(buttonListener);
         startWindow.setVisible(true);
@@ -84,5 +95,9 @@ public class Contractor extends JFrame {
 
                           }
         );
+        ContractorButtonListener contractortButtonListener = new ContractorButtonListener();
+        addButton.addActionListener(contractortButtonListener);
+        editButton.addActionListener(contractortButtonListener);
+        deleteButton.addActionListener(contractortButtonListener);
     }
 }
