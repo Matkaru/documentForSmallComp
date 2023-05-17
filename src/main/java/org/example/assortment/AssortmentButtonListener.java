@@ -1,7 +1,6 @@
 package org.example.assortment;
 
 import org.example.jsonSave.SaveAssortment;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -117,7 +116,6 @@ public class AssortmentButtonListener extends Component implements ActionListene
     }
 
     void onEditButtonClicked() throws IOException {
-
         int selectedRow = assortmentTable.getSelectedRow(); // Fetch the selected row
         if (selectedRow == -1) {
             // Checks if a row has been selected
@@ -166,6 +164,7 @@ public class AssortmentButtonListener extends Component implements ActionListene
                         nameList.clear();
                         Assortment.sortAssortmentTableByCode();
                         SaveAssortment.saveAssortment();
+
 
                     }
                 }

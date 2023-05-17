@@ -17,6 +17,7 @@ public class EditDialog extends JDialog {
     public boolean isConfirmed() {
         return confirmed;
     }
+
     public EditDialog(AssortmentButtonListener parent, long id, String name, double price) {
         super();
         //Set the dialog title and modal mode
@@ -57,10 +58,13 @@ public class EditDialog extends JDialog {
         confirmButton.addActionListener(e -> {
             confirmed = true;
             dispose(); //Closing the dialog box
+
         });
         cancelButton.addActionListener(e -> {
 
             confirmed = false;
+            Assortment assortment = (Assortment) SwingUtilities.getWindowAncestor((Component)e.getSource());
+            assortment.setEnabled(true);
             dispose(); //Closing the dialog box
         });
         add(confirmButton);
