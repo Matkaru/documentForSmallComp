@@ -20,10 +20,19 @@ public class AssortmentMethod {
 
     public static String fileName = "src/main/resources/assortment_data.json";
 
-    public static void loadAssortmentFromFile() throws IOException {
+        static List<String> jsonStr;
+
+    static {
+        try {
+            jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/assortment_data.json")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void loadAssortmentFromFile() {
 
         // Files.readAllBytes(Paths.get(fileName)
-        List<String> jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/assortment_data.json")));
 
         try {
             File file = new File(fileName);
@@ -67,31 +76,37 @@ public class AssortmentMethod {
     }
 
     public static void setCodeAndNameList() {
-
         JSONParser parser = new JSONParser();
-        JSONArray dane = null;
-        try {
-            dane = (JSONArray) parser.parse(new FileReader(fileName));
-        } catch (IOException | ParseException ex) {
-            throw new RuntimeException(ex);
-        }
+        JSONArray dane;
+
+        if (jsonStr.isEmpty()) {
+            DefaultTableModel model = (DefaultTableModel) Assortment.assortmentTable.getModel();
+            model.setRowCount(0);
+        } else {
+
+            try {
+                dane = (JSONArray) parser.parse(new FileReader(fileName));
+            } catch (IOException | ParseException ex) {
+                throw new RuntimeException(ex);
+            }
 //        wczytywanie kodów do listy
-        for (Object object : dane) {
-            JSONObject product = (JSONObject) object;
-            long id = (Long) product.get("Kod");
-            String name =(String) product.get("Nazwa");
-            codeList.add(id);
-            nameList.add(name);
+            for (Object object : dane) {
+                JSONObject product = (JSONObject) object;
+                long id = (Long) product.get("Kod");
+                String name = (String) product.get("Nazwa");
+                codeList.add(id);
+                nameList.add(name);
+            }
         }
     }
-    public static List<Long> getCodeList(){
+
+    public static List<Long> getCodeList() {
         return codeList;
     }
 
     public static List<String> getNameList() {
         return nameList;
     }
-
 
 
 }

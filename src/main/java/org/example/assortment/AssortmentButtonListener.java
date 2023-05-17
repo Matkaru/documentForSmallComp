@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,9 +20,17 @@ public class AssortmentButtonListener extends Component implements ActionListene
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton sourceButton) {
             if (sourceButton.getText().equals("Dodaj")) {
-                onAddButtonClicked();
+                try {
+                    onAddButtonClicked();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else if (sourceButton.getText().equals("Edytuj")) {
-                onEditButtonClicked();
+                try {
+                    onEditButtonClicked();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else if (sourceButton.getText().equals("Usuń")) {
                 onDeleteButtonClicked();
 
@@ -29,7 +38,7 @@ public class AssortmentButtonListener extends Component implements ActionListene
         }
     }
 
-    private void onAddButtonClicked() {
+    private void onAddButtonClicked() throws IOException {
         AssortmentMethod.setCodeAndNameList();
         List<Long> codeList = AssortmentMethod.getCodeList();
         List<String> nameList = AssortmentMethod.getNameList();
@@ -104,7 +113,7 @@ public class AssortmentButtonListener extends Component implements ActionListene
         }
     }
 
-    void onEditButtonClicked() {
+    void onEditButtonClicked() throws IOException {
 
         int selectedRow = assortmentTable.getSelectedRow(); // Fetch the selected row
         if (selectedRow == -1) {
