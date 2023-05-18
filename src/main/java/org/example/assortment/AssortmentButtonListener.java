@@ -1,5 +1,4 @@
 package org.example.assortment;
-
 import org.example.jsonSave.SaveAssortment;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -28,7 +27,7 @@ public class AssortmentButtonListener extends Component implements ActionListene
                 }
             } else if (sourceButton.getText().equals("Edytuj")) {
                 try {
-                    onEditButtonClicked();
+                    onEditButtonClicked(e);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -115,7 +114,7 @@ public class AssortmentButtonListener extends Component implements ActionListene
         }
     }
 
-    void onEditButtonClicked() throws IOException {
+    void onEditButtonClicked(ActionEvent e) throws IOException {
         int selectedRow = assortmentTable.getSelectedRow(); // Fetch the selected row
         if (selectedRow == -1) {
             // Checks if a row has been selected
@@ -131,9 +130,15 @@ public class AssortmentButtonListener extends Component implements ActionListene
         EditDialog editDialog = new EditDialog(AssortmentButtonListener.this, id, name, price);
         editDialog.setVisible(true);
 
+
+        Assortment assortment = (Assortment) SwingUtilities.getWindowAncestor((Component)e.getSource());
+        assortment.setEnabled(false);
+
+
         editDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
+                assortment.setEnabled(true);
                 if (editDialog.isConfirmed()) {
                     List<String> nameList = new ArrayList<>(AssortmentMethod.getNameList());
 

@@ -61,10 +61,7 @@ public class EditDialog extends JDialog {
 
         });
         cancelButton.addActionListener(e -> {
-
             confirmed = false;
-            Assortment assortment = (Assortment) SwingUtilities.getWindowAncestor((Component)e.getSource());
-            assortment.setEnabled(true);
             dispose(); //Closing the dialog box
         });
         add(confirmButton);
