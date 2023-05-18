@@ -31,9 +31,9 @@ public class Assortment extends JFrame {
         DefaultTableModel model = (DefaultTableModel) assortmentTable.getModel();
         int rowCount = model.getRowCount();
 
-        List<Vector<Object>> data = new ArrayList<>();
+        List<List<Object>> data = new ArrayList<>();
         for (int i = 0; i < rowCount; i++) {
-            Vector<Object> row = new Vector<>();
+            List<Object> row = new ArrayList<>();
             for (int j = 0; j < model.getColumnCount(); j++) {
                 row.add(model.getValueAt(i, j));
             }
@@ -48,8 +48,8 @@ public class Assortment extends JFrame {
         model.setRowCount(0); // The table is cleared
 
         //adding the newly sorted values to the table
-        for (Vector<Object> row : data) {
-            model.addRow(row);
+        for (List<Object> row : data) {
+            model.addRow(row.toArray());
         }
     }
 
