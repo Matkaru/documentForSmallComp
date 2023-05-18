@@ -115,23 +115,23 @@ public class Assortment extends JFrame {
     JPanel formPanel = new JPanel(new GridLayout(5, 2));
         formPanel.add(new
 
-    JLabel("Kod: "));
+    JLabel("   Kod: "));
         formPanel.add(newItemCodeField);
         formPanel.add(new
 
-    JLabel("Nazwa: "));
+    JLabel("   Nazwa: "));
         formPanel.add(newItemNameField);
         formPanel.add(new
 
-    JLabel("Cena: "));
+    JLabel("   Cena: "));
         formPanel.add(newItemPriceField);
         formPanel.add(new
 
-    JLabel("Jednostka miary: "));
+    JLabel("   Jednostka miary: "));
         formPanel.add(newItemUnitComboBox);
         formPanel.add(new
 
-    JLabel("VAT"));
+    JLabel("   VAT"));
         formPanel.add(newItemVatComboBox);
 
 
