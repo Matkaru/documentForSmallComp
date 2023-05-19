@@ -29,8 +29,6 @@ public class ContractorsMethod {
         }
     }
 
-
-
     public static void loadContractorsFromFile() throws IOException {
 
       //  List<String> jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/contractors_data.json")));

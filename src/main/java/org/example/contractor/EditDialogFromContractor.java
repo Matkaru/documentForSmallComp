@@ -5,6 +5,7 @@ import org.example.contractor.ContractorButtonListener;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class EditDialogFromContractor extends JDialog {
     private final JTextField idFiled;
     private final JTextField companyNameField;

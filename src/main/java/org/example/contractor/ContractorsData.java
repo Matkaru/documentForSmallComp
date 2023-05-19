@@ -1,5 +1,6 @@
 package org.example.contractor;
 
+
 public class ContractorsData {
     private long id;
     private String companyName;

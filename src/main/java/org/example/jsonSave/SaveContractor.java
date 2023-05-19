@@ -35,8 +35,7 @@ public class SaveContractor {
             contractorsData.setEmail((String) modelC.getValueAt(i, 5));
             long itemPhoneNumberString = (long) modelC.getValueAt(i, 6);
             contractorsData.setPhoneNumber(Long.parseLong(String.valueOf(itemPhoneNumberString)));
-            //contractorsData.setAddress(String.parseString(String.valueOf(itemAddressString)));
-            //contractorsDataList.add(contractorsData);
+
 
             contractorsDataList.add(contractorsData);
         }

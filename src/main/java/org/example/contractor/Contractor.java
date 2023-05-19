@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+
 public class Contractor extends JFrame {
 
     public static JTextField newItemCompanyIdField;
