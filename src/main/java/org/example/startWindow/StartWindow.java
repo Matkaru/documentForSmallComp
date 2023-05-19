@@ -5,12 +5,16 @@ public class StartWindow extends JFrame {
 
     //start window
     public StartWindow(StartWindowButtonListener buttonListener){
-        super("Panel Wyboru");
+        super("DFSC SYSTEM");
+        ImageIcon icon = new ImageIcon("src/main/resources/dfsc syst.png");
+        setIconImage(icon.getImage());
+
 
         //here we set the title and the default operation that will be performed after closing the window and the size of the frame
-        setTitle("Panel Wyboru");
+        setTitle("DFSC SYSTEM");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(400, 300));
+
 
         //we set the header title and its position
         JLabel naglowek = new JLabel("Wybierz czynność");
@@ -44,5 +48,7 @@ public class StartWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+
 
 }

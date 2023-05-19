@@ -1,12 +1,9 @@
 package org.example;
-
-import org.example.startWindow.StartWindow;
-import org.example.startWindow.StartWindowButtonListener;
-
+import org.example.startWindow.SplashScreenDfsc;
 public class Main {
     public static void main(String[] args) {
 
-        StartWindowButtonListener buttonListener = new StartWindowButtonListener();
-        new StartWindow(buttonListener);
+        new SplashScreenDfsc();
+
     }
 }

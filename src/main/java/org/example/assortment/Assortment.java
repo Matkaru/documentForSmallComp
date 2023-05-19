@@ -56,6 +56,8 @@ public class Assortment extends JFrame {
 
         setTitle("Asortyment");
         setSize(700, 800);
+        ImageIcon icon = new ImageIcon("src/main/resources/dfsc syst.png");
+        setIconImage(icon.getImage());
 
 
         String[] columnNames = {"Kod", "Nazwa", "Cena", "Jednostka", "VAT"};

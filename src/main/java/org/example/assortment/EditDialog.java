@@ -22,6 +22,8 @@ public class EditDialog extends JDialog {
         super();
         //Set the dialog title and modal mode
         setLayout(new GridLayout(6, 4));
+        ImageIcon icon = new ImageIcon("src/main/resources/dfsc syst.png");
+        setIconImage(icon.getImage());
 
         AssortmentMethod.setCodeAndNameList();
 
