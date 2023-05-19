@@ -1,5 +1,6 @@
 package org.example.contractor;
 
+import org.example.assortment.AssortmentMethod;
 import org.example.jsonSave.SaveContractor;
 
 import javax.swing.*;
@@ -9,7 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 
 import static org.example.contractor.Contractor.contractorTable;
@@ -21,17 +26,26 @@ public class ContractorButtonListener extends Component implements ActionListene
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton sourceButton) {
             if (sourceButton.getText().equals("Dodaj")) {
-                onAddButtonClicked();
+                try {
+                    onAddButtonClicked();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else if (sourceButton.getText().equals("Edytuj")) {
-               onEditButtonClicked();
+                try {
+                    onEditButtonClicked();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else if (sourceButton.getText().equals("Usuń")) {
-               onDeleteButtonClicked();
+                onDeleteButtonClicked();
 
             }
         }
     }
 
-    private void onAddButtonClicked() {
+
+    private void onAddButtonClicked() throws IOException {
        ContractorsMethod.setIdAndCompanyNameList();
         List<Long> idList = ContractorsMethod.getIdList();
         List<String> companyNameList = ContractorsMethod.getCompanyNameList();
@@ -44,6 +58,7 @@ public class ContractorButtonListener extends Component implements ActionListene
         String address = newItemAddressField.getText();
         String email = newItemEmailField.getText();
         String phoneNumber = newItemPhoneNumberField.getText();
+
         if (idList.contains(Long.parseLong(id))) {
             JOptionPane.showMessageDialog(ContractorButtonListener.this, "Podany kod już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
             return;
@@ -84,6 +99,7 @@ public class ContractorButtonListener extends Component implements ActionListene
         newItemPhoneNumberField.setText("");
 
         JOptionPane.showMessageDialog(ContractorButtonListener.this, "Dodano nowy wpis do tabeli.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
+        Contractor.sortContractorTableByCode();
         SaveContractor.saveContractor();
 
     }
@@ -104,12 +120,12 @@ public class ContractorButtonListener extends Component implements ActionListene
             DefaultTableModel model = (DefaultTableModel) contractorTable.getModel();
             model.removeRow(selectedRow);
             JOptionPane.showMessageDialog(ContractorButtonListener.this, "Wpis został usunięty.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
-
+            Contractor.sortContractorTableByCode();
             SaveContractor.saveContractor();
         }
     }
 
-    void onEditButtonClicked() {
+    void onEditButtonClicked()throws IOException  {
 
         int selectedRow = contractorTable.getSelectedRow(); // Fetch the selected row
         if (selectedRow == -1) {
@@ -134,28 +150,39 @@ public class ContractorButtonListener extends Component implements ActionListene
             @Override
             public void windowClosed(WindowEvent e) {
                 if (editDialogFromContractor.isConfirmed()) {
+                    List<String> nameList = new ArrayList<>(AssortmentMethod.getNameList());
+
+                    HashSet<String> set = new HashSet<>(nameList);
+                    nameList.clear();
+                    nameList.addAll(set);
+                    nameList.remove(companyName);
                     //If the user confirms the changes, we fetch the modified data from the dialog
                     long editId = editDialogFromContractor.getId();
                     String editedCompanyName = editDialogFromContractor.getCompanyName();
-                    long editNip= editDialogFromContractor.getNip();
-                    long editRegon= editDialogFromContractor.getRegon();
+                    long editNip = editDialogFromContractor.getNip();
+                    long editRegon = editDialogFromContractor.getRegon();
                     String editAddress = editDialogFromContractor.getAddress();
                     String editEmail = editDialogFromContractor.getEmail();
                     long editPhoneNumber = editDialogFromContractor.getPhoneNumber();
+                    if (nameList.contains(editedCompanyName)) {
+                        JOptionPane.showMessageDialog(ContractorButtonListener.this, "Podana nazwa już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        //Updating data in the table
+                        DefaultTableModel modelC2 = (DefaultTableModel) contractorTable.getModel();
+                        modelC2.setValueAt(editId, selectedRow, 0);
+                        modelC2.setValueAt(editedCompanyName, selectedRow, 1);
+                        modelC2.setValueAt(editNip, selectedRow, 2);
+                        modelC2.setValueAt(editRegon, selectedRow, 3);
+                        modelC2.setValueAt(editAddress, selectedRow, 4);
+                        modelC2.setValueAt(editEmail, selectedRow, 5);
+                        modelC2.setValueAt(editPhoneNumber, selectedRow, 6);
 
-                    //Updating data in the table
-                    DefaultTableModel modelC2 = (DefaultTableModel) contractorTable.getModel();
-                  modelC2.setValueAt(editId, selectedRow, 0);
-                  modelC2.setValueAt(editedCompanyName, selectedRow, 1);
-                  modelC2.setValueAt(editNip, selectedRow, 2);
-                  modelC2.setValueAt(editRegon, selectedRow, 3);
-                  modelC2.setValueAt(editAddress, selectedRow, 4);
-                  modelC2.setValueAt(editEmail, selectedRow, 5);
-                  modelC2.setValueAt(editPhoneNumber, selectedRow, 6);
 
-
-                    JOptionPane.showMessageDialog(ContractorButtonListener.this, "Dane zostały zaktualizowane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
-                    SaveContractor.saveContractor();
+                        JOptionPane.showMessageDialog(ContractorButtonListener.this, "Dane zostały zaktualizowane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
+                        nameList.clear();
+                        Contractor.sortContractorTableByCode();
+                        SaveContractor.saveContractor();
+                    }
                 }
             }
         });

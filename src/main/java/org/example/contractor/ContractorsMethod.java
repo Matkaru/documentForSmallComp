@@ -1,5 +1,6 @@
 package org.example.contractor;
 
+import org.example.assortment.Assortment;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,9 +19,21 @@ public class ContractorsMethod {
     private static final List<String> companyNameList = new ArrayList<>();
     public static String fileNameC = "src/main/resources/contractors_data.json";
 
+    static List<String> jsonStr;
+
+    static {
+        try {
+            jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/contractors_data.json")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     public static void loadContractorsFromFile() throws IOException {
 
-        List<String> jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/contractors_data.json")));
+      //  List<String> jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/contractors_data.json")));
         try {
             File file = new File(fileNameC);
             if (!file.exists()) {
@@ -35,9 +48,11 @@ public class ContractorsMethod {
             if (!jsonStr.isEmpty()) {
                 JSONParser parser = new JSONParser();
                 JSONArray daneC = (JSONArray) parser.parse(new FileReader(fileNameC));
+
                 // Wyczyszczenie tabeli przed wczytaniem nowych danych
                 DefaultTableModel modelC = (DefaultTableModel) Contractor.contractorTable.getModel();
                 modelC.setRowCount(0);
+
                 // Dodanie wczytanych danych do tabeli
                 for (Object object : daneC) {
                     JSONObject contractorsData = (JSONObject) object;
@@ -60,9 +75,15 @@ public class ContractorsMethod {
     }
 
     public static void setIdAndCompanyNameList() {
+
+        JSONParser parser = new JSONParser();
+        JSONArray daneC;
+
         if (!fileNameC.isEmpty()) {
-            JSONParser parser = new JSONParser();
-            JSONArray daneC = null;
+            DefaultTableModel model = (DefaultTableModel) Contractor.contractorTable.getModel();
+            model.setRowCount(0);
+        }else{
+
             try {
                 daneC = (JSONArray) parser.parse(new FileReader(fileNameC));
             } catch (IOException | ParseException ex) {
@@ -76,7 +97,7 @@ public class ContractorsMethod {
                 idList.add(id);
                 companyNameList.add(companyName);
             }
-            DefaultTableModel tableModel;
+
         }
     }
 
