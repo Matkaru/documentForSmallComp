@@ -1,8 +1,7 @@
 package org.example.contractor;
-import org.example.assortment.AssortmentButtonListener;
 import org.example.startWindow.StartWindow;
-
 import org.example.startWindow.StartWindowButtonListener;
+import org.example.windowIcon.WindowIconSetter;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -55,6 +54,7 @@ public class Contractor extends JFrame {
 
         setTitle("Kontrahenci");
         setSize(700, 800);
+        WindowIconSetter.setWindowIcon(this,"src/main/resources/dfsc syst.png");
         String[] columnNames = {"Id", "Nazwa firmy", "NIP", "REGON", "Adres", "Email", "Nr telefonu"};
         TableModel model = new DefaultTableModel(columnNames, 0);
 
@@ -84,19 +84,19 @@ public class Contractor extends JFrame {
         JButton deleteButton = new JButton("Usuń");
 
         JPanel formPanel = new JPanel(new GridLayout(7, 2));
-        formPanel.add(new JLabel("Id: "));
+        formPanel.add(new JLabel("  Id: "));
         formPanel.add(newItemCompanyIdField);
-        formPanel.add(new JLabel("Nazwa firmy: "));
+        formPanel.add(new JLabel("  Nazwa firmy: "));
         formPanel.add(newItemCompanyNameField);
-        formPanel.add(new JLabel("NIP: "));
+        formPanel.add(new JLabel("  NIP: "));
         formPanel.add(newItemNipField);
-        formPanel.add(new JLabel("REGON: "));
+        formPanel.add(new JLabel("  REGON: "));
         formPanel.add(newItemRegonField);
-        formPanel.add(new JLabel("Adres: "));
+        formPanel.add(new JLabel("  Adres: "));
         formPanel.add(newItemAddressField);
-        formPanel.add(new JLabel("Email: "));
+        formPanel.add(new JLabel("  Email: "));
         formPanel.add(newItemEmailField);
-        formPanel.add(new JLabel("Nr telefonu: "));
+        formPanel.add(new JLabel("  Nr telefonu: "));
         formPanel.add(newItemPhoneNumberField);
 
         // Adding buttons to the window

@@ -1,6 +1,5 @@
 package org.example.contractor;
-
-import org.example.contractor.ContractorButtonListener;
+import org.example.windowIcon.WindowIconSetter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,11 +20,11 @@ public class EditDialogFromContractor extends JDialog {
         return confirmed;
     }
 
-    public EditDialogFromContractor (ContractorButtonListener parent, long id, String companyName, long nip, long regon, long number, String address, String email, long phoneNumber) {
+    public EditDialogFromContractor (ContractorButtonListener parent, long id, String companyName, long nip, long regon, String address, String email, long phoneNumber) {
         super();
         //Set the dialog title and modal mode
         setLayout(new GridLayout(7, 4));
-
+        WindowIconSetter.setWindowIcon(this,"src/main/resources/dfsc syst.png");
      //   ContractorsMethod.setIdAndCompanyNameList();
 
 
