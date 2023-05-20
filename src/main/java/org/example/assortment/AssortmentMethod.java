@@ -16,7 +16,7 @@ public class AssortmentMethod {
 
     public static String fileName = "src/main/resources/assortment_data.json";
 
-        static List<String> jsonStr;
+    static List<String> jsonStr;
 
     static {
         try {
@@ -102,5 +102,4 @@ public class AssortmentMethod {
     }
 
 }
-
 

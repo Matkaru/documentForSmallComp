@@ -1,55 +1,111 @@
 package org.example.contractor;
+
 import org.example.assortment.Assortment;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 import javax.swing.table.DefaultTableModel;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
 public class ContractorsMethod {
-    public static String fileName = "src/main/resources/contractors_data.json";
-    public static void loadContractorsFromFile() throws IOException {
-        // Files.readAllBytes(Paths.get(fileName)
-        List<String> jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/contractors_data.json")));
+    private static final List<Long> idList = new ArrayList<>();
+    private static final List<String> companyNameList = new ArrayList<>();
+    public static String fileNameC = "src/main/resources/contractors_data.json";
+
+    static List<String> jsonStr;
+
+    static {
         try {
-            File file = new File(fileName);
+            jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/contractors_data.json")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void loadContractorsFromFile() throws IOException {
+
+      //  List<String> jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/contractors_data.json")));
+        try {
+            File file = new File(fileNameC);
             if (!file.exists()) {
                 // Jeśli plik nie istnieje, zakończ wczytywanie
                 return;
             }
             if (jsonStr.isEmpty()) {
-                DefaultTableModel model = (DefaultTableModel) Contractor.contractorTable.getModel();
-                model.setRowCount(0);
+                DefaultTableModel modelC = (DefaultTableModel) Contractor.contractorTable.getModel();
+                modelC.setRowCount(0);
             }
             // Wczytanie danych z pliku JSON
             if (!jsonStr.isEmpty()) {
                 JSONParser parser = new JSONParser();
-                JSONArray dane = (JSONArray) parser.parse(new FileReader(fileName));
+                JSONArray daneC = (JSONArray) parser.parse(new FileReader(fileNameC));
+
                 // Wyczyszczenie tabeli przed wczytaniem nowych danych
-                DefaultTableModel model = (DefaultTableModel) Contractor.contractorTable.getModel();
-                model.setRowCount(0);
+                DefaultTableModel modelC = (DefaultTableModel) Contractor.contractorTable.getModel();
+                modelC.setRowCount(0);
+
                 // Dodanie wczytanych danych do tabeli
-                for (Object object : dane) {
+                for (Object object : daneC) {
                     JSONObject contractorsData = (JSONObject) object;
-                    int id = (int) contractorsData.get("Id");
+                    long id = (Long) contractorsData.get("Id");
                     String companyName = (String) contractorsData.get("Nazwa firmy");
-                    long nip = (long) contractorsData.get("NIP");
-                    long regon = (long) contractorsData.get("REGON");
-                    String  address = (String) contractorsData.get("Adres firmy");
-                    String  email = (String) contractorsData.get("Adres email");
-                    String  phoneNumber = (String) contractorsData.get("Nr telefonu");
-                    model.addRow(new Object[]{id, companyName,nip,regon,address,email,phoneNumber});                }
+                    long nip = (Long) contractorsData.get("NIP");
+                    long regon = (Long) contractorsData.get("REGON");
+                    String address = (String) contractorsData.get("Adres");
+                    String email = (String) contractorsData.get("Email");
+                    long phoneNumber = (Long) contractorsData.get("Nr telefonu");
+                    modelC.addRow(new Object[]{id, companyName, nip, regon, address, email, phoneNumber});
+                }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public static void setIdAndCompanyNameList() {
+
+        JSONParser parser = new JSONParser();
+        JSONArray daneC;
+
+        if (!fileNameC.isEmpty()) {
+            DefaultTableModel model = (DefaultTableModel) Contractor.contractorTable.getModel();
+            model.setRowCount(0);
+        }else{
+
+            try {
+                daneC = (JSONArray) parser.parse(new FileReader(fileNameC));
+            } catch (IOException | ParseException ex) {
+                throw new RuntimeException(ex);
+            }
+            //wczytywanie kodów do listy
+            for (Object object : daneC) {
+                JSONObject product = (JSONObject) object;
+                long id = (Long) product.get("Id");
+                String companyName = (String) product.get("Nazwa firmy");
+                idList.add(id);
+                companyNameList.add(companyName);
+            }
+
+        }
+    }
+
+    public static List<Long> getIdList() {
+        return idList;
+    }
+
+
+    public static List<String> getCompanyNameList() {
+        return companyNameList;
+    }
 }
+
