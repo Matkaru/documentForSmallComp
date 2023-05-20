@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
-
 
 
 import static org.example.contractor.Contractor.contractorTable;
@@ -144,15 +142,15 @@ public class ContractorButtonListener extends Component implements ActionListene
         String email = (String) contractorTable.getValueAt(selectedRow, 5);
         long phoneNumber = (long) contractorTable.getValueAt(selectedRow, 6);
 
-        EditDialogFromContractor editDialogFromContractor = new EditDialogFromContractor(ContractorButtonListener.this, id, companyName,nip,regon, phoneNumber, address, email, phoneNumber );
+        EditDialogFromContractor editDialogFromContractor = new EditDialogFromContractor(ContractorButtonListener.this, id, companyName,nip,regon, address, email, phoneNumber );
         editDialogFromContractor.setVisible(true);
 
         editDialogFromContractor.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 if (editDialogFromContractor.isConfirmed()) {
-                    List<String> nameList = new ArrayList<>(AssortmentMethod.getNameList());
 
+                    List<String> nameList = new ArrayList<>(AssortmentMethod.getNameList());
                     HashSet<String> set = new HashSet<>(nameList);
                     nameList.clear();
                     nameList.addAll(set);
