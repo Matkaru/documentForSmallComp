@@ -3,7 +3,6 @@ import org.example.enums.Unit;
 import org.example.enums.Vat;
 import javax.swing.*;
 import java.awt.*;
-
 import java.util.Objects;
 
 public class EditDialog extends JDialog {
@@ -18,10 +17,13 @@ public class EditDialog extends JDialog {
     public boolean isConfirmed() {
         return confirmed;
     }
+
     public EditDialog(AssortmentButtonListener parent, long id, String name, double price) {
         super();
         //Set the dialog title and modal mode
         setLayout(new GridLayout(6, 4));
+        ImageIcon icon = new ImageIcon("src/main/resources/dfsc syst.png");
+        setIconImage(icon.getImage());
 
         AssortmentMethod.setCodeAndNameList();
 
@@ -58,9 +60,9 @@ public class EditDialog extends JDialog {
         confirmButton.addActionListener(e -> {
             confirmed = true;
             dispose(); //Closing the dialog box
+
         });
         cancelButton.addActionListener(e -> {
-
             confirmed = false;
             dispose(); //Closing the dialog box
         });

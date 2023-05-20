@@ -36,14 +36,14 @@ public  class SaveAssortment {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            // Utworzenie obiektu JsonGenerator
+            // Created object JsonGenerator
             JsonFactory jsonFactory = objectMapper.getFactory();
             JsonGenerator jsonGenerator = jsonFactory.createGenerator(new FileWriter("src/main/resources/assortment_data.json"));
 
-            // Rozpoczęcie zapisu do pliku JSON
+            // Started save Json File
             jsonGenerator.writeStartArray();
             for (Product product : productList) {
-                // Zapisanie pojedynczego obiektu jako JSON
+                // Saving a single object as JSON
                 jsonGenerator.writeStartObject();
                 jsonGenerator.writeNumberField("Kod", product.getId());
                 jsonGenerator.writeStringField("Nazwa", product.getName());
@@ -55,7 +55,7 @@ public  class SaveAssortment {
             }
             jsonGenerator.writeEndArray();
 
-            // Zakończenie zapisu
+            //End of recording
             jsonGenerator.flush();
             jsonGenerator.close();
         } catch (
