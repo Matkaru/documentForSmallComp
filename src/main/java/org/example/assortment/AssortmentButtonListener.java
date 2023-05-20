@@ -138,6 +138,7 @@ public class AssortmentButtonListener extends Component implements ActionListene
         editDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
+
                 assortment.setEnabled(true);
                 if (editDialog.isConfirmed()) {
                     List<String> nameList = new ArrayList<>(AssortmentMethod.getNameList());
@@ -147,16 +148,16 @@ public class AssortmentButtonListener extends Component implements ActionListene
                     nameList.addAll(set);
                     nameList.remove(name);
 
-                        //If the user confirms the changes, we fetch the modified data from the dialog
-                        long editId = editDialog.getId();
-                        String editedName = editDialog.getName();
-                        String editedCategory = editDialog.getUnit();
-                        double editedPrice = editDialog.getPrice();
-                        long editedVat = Long.parseLong(editDialog.getVat());
+                    //If the user confirms the changes, we fetch the modified data from the dialog
+                    long editId = editDialog.getId();
+                    String editedName = editDialog.getName();
+                    String editedCategory = editDialog.getUnit();
+                    double editedPrice = editDialog.getPrice();
+                    long editedVat = Long.parseLong(editDialog.getVat());
 
                     if (nameList.contains(editedName)) {
                         JOptionPane.showMessageDialog(AssortmentButtonListener.this, "Podana nazwa już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
-                    }else {
+                    } else {
                         //Updating data in the table
                         DefaultTableModel model12 = (DefaultTableModel) assortmentTable.getModel();
                         model12.setValueAt(editId, selectedRow, 0);
@@ -173,6 +174,11 @@ public class AssortmentButtonListener extends Component implements ActionListene
 
                     }
                 }
+
+            }
+            @Override
+            public void windowClosing(WindowEvent e) {
+                assortment.setEnabled(true);
             }
         });
 

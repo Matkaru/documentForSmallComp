@@ -1,6 +1,8 @@
 package org.example.assortment;
 import org.example.enums.Unit;
 import org.example.enums.Vat;
+import org.example.windowIcon.WindowIconSetter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
@@ -22,8 +24,7 @@ public class EditDialog extends JDialog {
         super();
         //Set the dialog title and modal mode
         setLayout(new GridLayout(6, 4));
-        ImageIcon icon = new ImageIcon("src/main/resources/dfsc syst.png");
-        setIconImage(icon.getImage());
+        WindowIconSetter.setWindowIcon(this,"src/main/resources/dfsc syst.png");
 
         AssortmentMethod.setCodeAndNameList();
 

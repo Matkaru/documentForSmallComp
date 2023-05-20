@@ -3,6 +3,7 @@ import org.example.startWindow.StartWindow;
 import org.example.enums.Unit;
 import org.example.enums.Vat;
 import org.example.startWindow.StartWindowButtonListener;
+import org.example.windowIcon.WindowIconSetter;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -56,8 +57,7 @@ public class Assortment extends JFrame {
 
         setTitle("Asortyment");
         setSize(700, 800);
-        ImageIcon icon = new ImageIcon("src/main/resources/dfsc syst.png");
-        setIconImage(icon.getImage());
+        WindowIconSetter.setWindowIcon(this,"src/main/resources/dfsc syst.png");
 
 
         String[] columnNames = {"Kod", "Nazwa", "Cena", "Jednostka", "VAT"};

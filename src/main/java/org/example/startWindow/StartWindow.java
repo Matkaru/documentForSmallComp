@@ -1,4 +1,5 @@
 package org.example.startWindow;
+import org.example.windowIcon.WindowIconSetter;
 import javax.swing.*;
 import java.awt.*;
 public class StartWindow extends JFrame {
@@ -6,9 +7,7 @@ public class StartWindow extends JFrame {
     //start window
     public StartWindow(StartWindowButtonListener buttonListener){
         super("DFSC SYSTEM");
-        ImageIcon icon = new ImageIcon("src/main/resources/dfsc syst.png");
-        setIconImage(icon.getImage());
-
+        WindowIconSetter.setWindowIcon(this,"src/main/resources/dfsc syst.png");
 
         //here we set the title and the default operation that will be performed after closing the window and the size of the frame
         setTitle("DFSC SYSTEM");
