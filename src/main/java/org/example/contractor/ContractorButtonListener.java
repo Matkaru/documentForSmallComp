@@ -1,8 +1,6 @@
 package org.example.contractor;
-
 import org.example.assortment.AssortmentMethod;
 import org.example.jsonSave.SaveContractor;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -14,11 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-
 import static org.example.contractor.Contractor.contractorTable;
-
 import static org.example.contractor.Contractor.*;
+
+
 public class ContractorButtonListener extends Component implements ActionListener {
     @Override
 
@@ -32,7 +29,7 @@ public class ContractorButtonListener extends Component implements ActionListene
                 }
             } else if (sourceButton.getText().equals("Edytuj")) {
                 try {
-                    onEditButtonClicked();
+                    onEditButtonClicked(e);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -42,7 +39,6 @@ public class ContractorButtonListener extends Component implements ActionListene
             }
         }
     }
-
 
     private void onAddButtonClicked() throws IOException {
        ContractorsMethod.setIdAndCompanyNameList();
@@ -58,6 +54,10 @@ public class ContractorButtonListener extends Component implements ActionListene
         String email = newItemEmailField.getText();
         String phoneNumber = newItemPhoneNumberField.getText();
 
+        if (id.isEmpty() || companyName.isEmpty() || nip.isEmpty() || regon.isEmpty()|| address.isEmpty()|| email.isEmpty()|| phoneNumber.isEmpty()) {
+            JOptionPane.showMessageDialog(ContractorButtonListener.this, "Wypełnij wszystkie pola!", "Błąd", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if (idList.contains(Long.parseLong(id))) {
             JOptionPane.showMessageDialog(ContractorButtonListener.this, "Podany kod już istnieje w bazie!", "Błąd", JOptionPane.ERROR_MESSAGE);
             return;
@@ -67,15 +67,21 @@ public class ContractorButtonListener extends Component implements ActionListene
             return;
         }
         // Checking if all fields are filled in
-        if (id.isEmpty() || companyName.isEmpty() || nip.isEmpty() || regon.isEmpty()|| address.isEmpty()|| email.isEmpty()|| phoneNumber.isEmpty()) {
-            JOptionPane.showMessageDialog(ContractorButtonListener.this, "Wypełnij wszystkie pola!", "Błąd", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         boolean idValid = id.matches("[0-9]{4,}");
         boolean nipValid = nip.matches("[0-9]{10,}");
+        boolean regonValid = regon.matches("[0-9]{9,}");
 
-        if (!idValid || !nipValid) {
-            JOptionPane.showMessageDialog(ContractorButtonListener.this, " Id musi zawierać minimum 4 cyfry od 0 do 9 ! \n Nip musi zawierać 10 cyfr", "Błąd", JOptionPane.ERROR_MESSAGE);
+
+        if (!idValid) {
+            JOptionPane.showMessageDialog(ContractorButtonListener.this, " Id musi zawierać minimum 4 cyfry od 0 do 9 !", "Błąd", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!nipValid){
+            JOptionPane.showMessageDialog(ContractorButtonListener.this, "Nip musi zawierać 10 cyfr!", "Błąd", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!regonValid){
+            JOptionPane.showMessageDialog(ContractorButtonListener.this, "Regon musi zawierać 9 cyfr ", "Błąd", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -124,7 +130,7 @@ public class ContractorButtonListener extends Component implements ActionListene
         }
     }
 
-    void onEditButtonClicked()throws IOException  {
+    void onEditButtonClicked(ActionEvent e)throws IOException  {
 
         int selectedRow = contractorTable.getSelectedRow(); // Fetch the selected row
         if (selectedRow == -1) {
@@ -145,9 +151,13 @@ public class ContractorButtonListener extends Component implements ActionListene
         EditDialogFromContractor editDialogFromContractor = new EditDialogFromContractor(ContractorButtonListener.this, id, companyName,nip,regon, address, email, phoneNumber );
         editDialogFromContractor.setVisible(true);
 
+        Contractor contractor = (Contractor)SwingUtilities.getWindowAncestor((Component)e.getSource());
+        contractor.setEnabled(false);
+
         editDialogFromContractor.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
+
                 if (editDialogFromContractor.isConfirmed()) {
 
                     List<String> nameList = new ArrayList<>(AssortmentMethod.getNameList());
