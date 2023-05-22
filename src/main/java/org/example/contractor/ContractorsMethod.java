@@ -1,14 +1,10 @@
 package org.example.contractor;
-
-import org.example.assortment.Assortment;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import javax.swing.table.DefaultTableModel;
 import java.io.*;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -29,7 +25,7 @@ public class ContractorsMethod {
         }
     }
 
-    public static void loadContractorsFromFile() throws IOException {
+    public static void loadContractorsFromFile() {
 
       //  List<String> jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/contractors_data.json")));
         try {
@@ -77,7 +73,7 @@ public class ContractorsMethod {
         JSONParser parser = new JSONParser();
         JSONArray daneC;
 
-        if (!fileNameC.isEmpty()) {
+        if (fileNameC.isEmpty()) {
             DefaultTableModel model = (DefaultTableModel) Contractor.contractorTable.getModel();
             model.setRowCount(0);
         }else{
