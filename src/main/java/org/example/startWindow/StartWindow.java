@@ -1,7 +1,9 @@
 package org.example.startWindow;
-import org.example.windowIcon.WindowIconSetter;
+import org.example.appConfig.WindowIconSetter;
 import javax.swing.*;
 import java.awt.*;
+import static java.awt.Color.*;
+
 public class StartWindow extends JFrame {
 
     //start window
@@ -9,15 +11,14 @@ public class StartWindow extends JFrame {
         super("DFSC SYSTEM");
         WindowIconSetter.setWindowIcon(this,"src/main/resources/dfsc syst.png");
 
-        //here we set the title and the default operation that will be performed after closing the window and the size of the frame
-        setTitle("DFSC SYSTEM");
+        int widthScreen = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int heightScreen = Toolkit.getDefaultToolkit().getScreenSize().height;
+        int frameWidth = (widthScreen/2);
+        int frameHeight = (heightScreen/2);
+        this.setPreferredSize(new Dimension(frameWidth,frameHeight));
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(400, 300));
-
-
-        //we set the header title and its position
-        JLabel naglowek = new JLabel("Wybierz czynność");
-        naglowek.setHorizontalAlignment(JLabel.CENTER);
+        getContentPane().setBackground(GRAY);
 
         //these are the buttons in our window - further on they are set to listen
         JButton asortyment = new JButton("Asortyment");
@@ -25,16 +26,52 @@ public class StartWindow extends JFrame {
         JButton dokumenty = new JButton("Dokumenty");
         JButton wyjscie = new JButton("Wyjście");
 
-        setLayout(new BorderLayout());//this is the layout manager - we'll use it later
+        asortyment.setIcon(new ImageIcon("src/main/java/org/example/startWindow/image/assortment.png"));
+        kontrahenci.setIcon(new ImageIcon("src/main/java/org/example/startWindow/image/contractor.png"));
+        dokumenty.setIcon(new ImageIcon("src/main/java/org/example/startWindow/image/document.png"));
+        wyjscie.setIcon(new ImageIcon("src/main/java/org/example/startWindow/image/exit.png"));
 
-        add(naglowek, BorderLayout.NORTH); // here we add the location of the header
-        JPanel panel = new JPanel(new FlowLayout());
+        int buttonWidth = frameWidth / 3;
+        int buttonHeight = frameHeight / 3;
+        Dimension buttonSize = new Dimension(buttonWidth,buttonHeight);
 
-        panel.add(asortyment);
-        panel.add(kontrahenci);
-        panel.add(dokumenty);
-        panel.add(wyjscie);
-        add(panel, BorderLayout.CENTER);
+        asortyment.setPreferredSize(buttonSize);
+        kontrahenci.setPreferredSize(buttonSize);
+        dokumenty.setPreferredSize(buttonSize);
+        wyjscie.setPreferredSize(buttonSize);
+
+        setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        constraints.gridx = 0;  // Left column
+        constraints.gridy = 0;  // Top row
+        constraints.anchor = GridBagConstraints.NORTHWEST;
+        add(asortyment, constraints);
+
+        constraints.gridx = 1;  // Right column
+        constraints.gridy = 0;  // Top row
+        constraints.anchor = GridBagConstraints.NORTHEAST;
+        add(kontrahenci, constraints);
+
+        constraints.gridx = 0;  // Left column
+        constraints.gridy = 1;  // Bottom row
+        constraints.anchor = GridBagConstraints.SOUTHWEST;
+        add(dokumenty, constraints);
+
+        constraints.gridx = 1;  // Right column
+        constraints.gridy = 1;  // Bottom row
+        constraints.anchor = GridBagConstraints.SOUTHEAST;
+        add(wyjscie, constraints);
+
+
+//        setLayout(new BorderLayout());//this is the layout manager - we'll use it later
+//        JPanel panel = new JPanel(new FlowLayout());
+//
+//        panel.add(asortyment);
+//        panel.add(kontrahenci);
+//        panel.add(dokumenty);
+//        panel.add(wyjscie);
+//        add(panel, BorderLayout.CENTER);
 
         //listening on buttons
 
@@ -47,7 +84,5 @@ public class StartWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
-
 
 }
