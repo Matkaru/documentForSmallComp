@@ -48,30 +48,20 @@ public class StartWindow extends JFrame {
         constraints.anchor = GridBagConstraints.NORTHWEST;
         add(asortyment, constraints);
 
-        constraints.gridx = 1;  // Right column
-        constraints.gridy = 0;  // Top row
+        constraints.gridx = 1;
+        constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.NORTHEAST;
         add(kontrahenci, constraints);
 
-        constraints.gridx = 0;  // Left column
-        constraints.gridy = 1;  // Bottom row
+        constraints.gridx = 0;
+        constraints.gridy = 1;
         constraints.anchor = GridBagConstraints.SOUTHWEST;
         add(dokumenty, constraints);
 
-        constraints.gridx = 1;  // Right column
-        constraints.gridy = 1;  // Bottom row
+        constraints.gridx = 1;
+        constraints.gridy = 1;
         constraints.anchor = GridBagConstraints.SOUTHEAST;
         add(wyjscie, constraints);
-
-
-//        setLayout(new BorderLayout());//this is the layout manager - we'll use it later
-//        JPanel panel = new JPanel(new FlowLayout());
-//
-//        panel.add(asortyment);
-//        panel.add(kontrahenci);
-//        panel.add(dokumenty);
-//        panel.add(wyjscie);
-//        add(panel, BorderLayout.CENTER);
 
         //listening on buttons
 
