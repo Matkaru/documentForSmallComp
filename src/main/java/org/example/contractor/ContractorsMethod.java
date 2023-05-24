@@ -27,27 +27,27 @@ public class ContractorsMethod {
 
     public static void loadContractorsFromFile() {
 
-      //  List<String> jsonStr = new ArrayList<>(Files.readAllLines(Paths.get("src/main/resources/contractors_data.json")));
+
         try {
             File file = new File(fileNameC);
             if (!file.exists()) {
-                // Jeśli plik nie istnieje, zakończ wczytywanie
+            // If the file does not exist, stop loading
                 return;
             }
             if (jsonStr.isEmpty()) {
                 DefaultTableModel modelC = (DefaultTableModel) Contractor.contractorTable.getModel();
                 modelC.setRowCount(0);
             }
-            // Wczytanie danych z pliku JSON
+            // Loading data from a JSON file
             if (!jsonStr.isEmpty()) {
                 JSONParser parser = new JSONParser();
                 JSONArray daneC = (JSONArray) parser.parse(new FileReader(fileNameC));
 
-                // Wyczyszczenie tabeli przed wczytaniem nowych danych
+            //Clearing the table before loading new data
                 DefaultTableModel modelC = (DefaultTableModel) Contractor.contractorTable.getModel();
                 modelC.setRowCount(0);
 
-                // Dodanie wczytanych danych do tabeli
+            // Adding the loaded data to the table
                 for (Object object : daneC) {
                     JSONObject contractorsData = (JSONObject) object;
                     long id = (Long) contractorsData.get("Id");
@@ -83,7 +83,7 @@ public class ContractorsMethod {
             } catch (IOException | ParseException ex) {
                 throw new RuntimeException(ex);
             }
-            //wczytywanie kodów do listy
+            // Loading codes into the list
             for (Object object : daneC) {
                 JSONObject product = (JSONObject) object;
                 long id = (Long) product.get("Id");
