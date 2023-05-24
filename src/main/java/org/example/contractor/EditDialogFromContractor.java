@@ -1,4 +1,5 @@
 package org.example.contractor;
+
 import org.example.windowIcon.WindowIconSetter;
 
 import javax.swing.*;
@@ -20,12 +21,11 @@ public class EditDialogFromContractor extends JDialog {
         return confirmed;
     }
 
-    public EditDialogFromContractor (ContractorButtonListener parent, long id, String companyName, long nip, long regon, String address, String email, long phoneNumber) {
+    public EditDialogFromContractor(ContractorButtonListener parent, long id, String companyName, long nip, long regon, String address, String email, long phoneNumber) {
         super();
         //Set the dialog title and modal mode
-        setLayout(new GridLayout(7, 4));
-        WindowIconSetter.setWindowIcon(this,"src/main/resources/dfsc syst.png");
-     //   ContractorsMethod.setIdAndCompanyNameList();
+        setLayout(new GridLayout(8, 1));
+        WindowIconSetter.setWindowIcon(this, "src/main/resources/dfsc syst.png");
 
 
         //Adding text boxes to the dialog box
@@ -33,13 +33,11 @@ public class EditDialogFromContractor extends JDialog {
         idFiled.setEditable(false);
         companyNameField = new JTextField(companyName);
         nipField = new JTextField(Long.toString(nip));
-        nipField.setEditable(false);
         regonField = new JTextField(Long.toString(regon));
-        regonField.setEditable(false);
         addressField = new JTextField(address);
         emailField = new JTextField(email);
         phoneNumberField = new JTextField(Long.toString(phoneNumber));
-        phoneNumberField.setEditable(false);
+
 
         add(new JLabel("Id"));
         add(idFiled);
@@ -72,7 +70,7 @@ public class EditDialogFromContractor extends JDialog {
         add(confirmButton);
         add(cancelButton);
 
-        setSize(300, 150);
+        setSize(300, 250);
         setLocationRelativeTo(parent);
     }
 
